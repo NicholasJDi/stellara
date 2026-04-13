@@ -7,14 +7,15 @@ if (sidebar) {
 
 	// Prevent animation on initial load
 	sidebar.classList.add('no-anim');
-	if (!sidebarParam) {
+	if (!sidebarParam && (!sidebar.classList.contains('closed') && !sidebar.classList.contains('open'))) {
 		// Restore saved state (if any)
 		if (localStorage.getItem('sidebar-open') !== 'false') {
 			sidebar.classList.add('open');
 		} else {
 			sidebar.classList.remove('open');
 		}
-	} else if (sidebarParam === 'open') {
+	} else if ((sidebarParam === 'open' && !sidebar.classList.contains('closed')) || sidebar.classList.contains('open')) {
+		sidebar.classList.remove('open');
 		// Force the sidebar to be open
 		if (document.documentElement.clientWidth > 800) {
 			sidebar.classList.add('open');
@@ -22,6 +23,7 @@ if (sidebar) {
 			sidebar.classList.remove('open');
 		}
 	} else {
+		sidebar.classList.remove('closed');
 		// Force the sidebar to be closed
 		if (document.documentElement.clientWidth > 800) {
 			sidebar.classList.remove('open');

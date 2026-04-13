@@ -344,14 +344,14 @@ function showTrackInfoMenu(id) {
 		setTrackInfoMenuContent(id);
 	}
 
-	history.pushState(null, '', `#${id}`);
+	history.replaceState(null, '', `#${id}`);
 	trackInfoMenu.classList.add('visible');
 }
 
 function hideTrackInfoMenu() {
 	trackInfoMenu.classList.remove('visible');
 	rawDataMenu.classList.remove('visible');
-	window.location.hash = ''
+	history.replaceState(null, '', window.location.pathname + window.location.search);
 }
 
 function setTrackInfoMenuContent(id) {
