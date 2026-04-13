@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+
+::-webkit-scrollbar-track {
+  background: rgb(50, 50, 50);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(70, 70, 70);
+}
+
+body {
+	background-color: rgb(40, 40, 40);
+	color: white;
+	font-family: Verdana, serif;
+	scrollbar-color: rgb(70, 70, 70) rgb(50, 50, 50);
+	margin: 0;
+	padding: 0;
+}
+
+a:link{
+	color: lightblue;
+}
+a:visited {
+	color: lightblue;
+}
+a:hover {
+	color: lightskyblue;
+}
+a:active {
+	color: lightskyblue;
+}
+
+.topbar {
+	background-color: rgb(50, 50, 50);
+	border-bottom: 0.2em solid rgb(100, 100, 100);
+	height: var(--topbar-size);
+	z-index: 999;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	display: flex;
+	align-items: center;
+}
+
+.sidebar {
+	background-color: rgb(50, 50, 50);
+	border-right: 0.1em solid rgb(100, 100, 100);
+	font-size: calc(var(--sidebar-size) / 12);
+	padding: 0.5em;
+	padding-top: 1em;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-gutter: stable both-edges;
+}
+
+.content{
+	container-type: size;
+	font-family: 'Jersey 25', Verdana, serif;
+}
+
+.content-inner {
+	padding: 2rem;
+	overflow: auto;
+	scrollbar-gutter: stable both-edges;
+}
+
+.content .content-inner {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}
+.sidebar-toggle {
+	background-color: transparent;
+	border: none;
+	color: white;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.sidebar-content {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.title {
+	text-align: center;
+	font-family: serif;
+	margin: 0;
+	padding: 0;
+}
+
+.page-link {
+	text-decoration: none;
+}
+.page-link:link {
+	color: white
+}
+.page-link:visited {
+	color: white
+}
+.page-link:hover {
+	color: lightblue;
+}
+.page-link:active {
+	color: lightskyblue;
+}
+
+.page-index-item {
+	text-align: left;
+	margin: 0;
+	padding: 0;
+}
+
+.page-section {
+	text-align: center;
+}
+
+.center-box {
+	display: flex;
+	justify-content: center;
+}

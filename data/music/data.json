@@ -1,0 +1,93 @@
+[
+	{
+		"id":"what_actually_might_show_up",
+		"title":"Rain of Past Times",
+		"album":"Walking Through The Past",
+		"artists":["Stellara"],
+		"type":"album",
+		"date":"2027-08-16",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/Stellara%20-%20Rain%20of%20Past%20Times.mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/Walking%20Through%20The%20Past.png"
+	},
+	{
+		"id":"single_title",
+		"title":"single title",
+		"artists":["artist1"],
+		"type":"single",
+		"date":"2025-03-14",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/artist1%20-%20single%20title.mp3",
+		"file_art":"https://nicholasjdi.github.io/stellara/data/music/songs/with_art/artist1%20-%20single%20title.mp3",
+		"file_library":"https://nicholasjdi.github.io/stellara/data/music/songs/library/artist1%20-%20single%20title.mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/single%20title.png",
+		"art_high_res":"https://nicholasjdi.github.io/stellara/data/music/art/high_res/single%20title.png",
+		"art_full":"https://nicholasjdi.github.io/stellara/data/music/art/full/single%20title.png"
+	},
+	{
+		"id":"album_title",
+		"title":"album title",
+		"album":"this be an album",
+		"artists":["artist1"],
+		"contributers":["contri1","contri2"],
+		"type":"album",
+		"date":"2024-07-16",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/artist1%20-%20album%20title%20(with%20contri1%20and%20contri2).mp3",
+		"file_art":"https://nicholasjdi.github.io/stellara/data/music/songs/with_art/artist1%20-%20album%20title%20(with%20contri1%20and%20contri2).mp3",
+		"file_library":"https://nicholasjdi.github.io/stellara/data/music/songs/library/artist1%20-%20album%20title%20(with%20contri1%20and%20contri2).mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/this%20be%20an%20album.png",
+		"art_high_res":"https://nicholasjdi.github.io/stellara/data/music/art/high_res/this%20be%20an%20album.png",
+		"art_full":"https://nicholasjdi.github.io/stellara/data/music/art/full/this%20be%20an%20album.png"
+	},
+	{
+		"id":"ep_title",
+		"title":"ep title",
+		"album":"this be an ep",
+		"artists":["artist1","artist2"],
+		"type":"ep",
+		"date":"2025-11-07",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/artist1%20x%20artist2%20-%20ep%20title.mp3",
+		"file_art":"https://nicholasjdi.github.io/stellara/data/music/songs/with_art/artist1%20x%20artist2%20-%20ep%20title.mp3",
+		"file_library":"https://nicholasjdi.github.io/stellara/data/music/songs/library/artist1%20x%20artist2%20-%20ep%20title.mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/this%20be%20an%20ep.png",
+		"art_high_res":"https://nicholasjdi.github.io/stellara/data/music/art/high_res/this%20be%20an%20ep.png"
+	},
+	{
+		"id":"remix_title",
+		"title":"remix title",
+		"artists":["artist1"],
+		"contributers":["contri1"],
+		"original_artists":["oriartist1"],
+		"type":"remix",
+		"date":"2024-01-27",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/oriartist1%20-%20remix%20title%20[artist1%20Remix%20(with%20contri1)].mp3",
+		"file_art":"https://nicholasjdi.github.io/stellara/data/music/songs/with_art/oriartist1%20-%20remix%20title%20[artist1%20Remix%20(with%20contri1)].mp3",
+		"file_library":"https://nicholasjdi.github.io/stellara/data/music/songs/library/oriartist1%20-%20remix%20title%20[artist1%20Remix%20(with%20contri1)].mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/remix%20title.png",
+		"art_high_res":"https://nicholasjdi.github.io/stellara/data/music/art/high_res/remix%20title.png"
+	},
+	{
+		"id":"ep_title_but_older",
+		"title":"ep title but older",
+		"album":"this be an ep",
+		"artists":["artist1"],
+		"type":"ep",
+		"date":"2023-06-14",
+		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/artist1%20-%20ep%20title%20but%20older.mp3",
+		"file_art":"https://nicholasjdi.github.io/stellara/data/music/songs/with_art/artist1%20-%20ep%20title%20but%20older.mp3",
+		"file_library":"https://nicholasjdi.github.io/stellara/data/music/songs/library/artist1%20-%20ep%20title%20but%20older.mp3",
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/this%20be%20an%20ep.png",
+		"art_high_res":"https://nicholasjdi.github.io/stellara/data/music/art/high_res/this%20be%20an%20ep.png"
+	},
+	{
+		"id":"test",
+		"title":"Moonlight",
+		"artists":["Geoxor"],
+		"type":"single",
+		"date":"2019-03-10",
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Moonlight.mp3",
+		"art":"https://beta.geoxor.moe/covers/moonlight.png",
+		"art_full":"https://nicholasjdi.github.io/data/Background.png"
+	},
+	{
+		"id":"blank"
+	}
+]
