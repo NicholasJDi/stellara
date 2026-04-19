@@ -8,8 +8,8 @@
 }
 
 body {
-	background-color: rgb(40, 40, 40);
 	color: white;
+	background-color: rgb(40, 40, 40);
 	font-family: Verdana, serif;
 	scrollbar-color: rgb(70, 70, 70) rgb(50, 50, 50);
 	margin: 0;
@@ -42,8 +42,8 @@ a:active {
 
 .sidebar {
 	background-color: rgb(50, 50, 50);
-	border-right: 0.1em solid rgb(100, 100, 100);
 	font-size: calc(var(--sidebar-size) / 12);
+	border-right: 0.1em solid rgb(100, 100, 100);
 	padding: 0.5em;
 	padding-top: 1em;
 	overflow-y: auto;
@@ -52,8 +52,8 @@ a:active {
 }
 
 .content{
-	container-type: size;
 	font-family: 'Jersey 25', Verdana, serif;
+	container-type: size;
 }
 
 .content-inner {
@@ -68,10 +68,11 @@ a:active {
 	height: 100%;
 }
 .sidebar-toggle {
-	background-color: transparent;
-	border: none;
 	color: white;
+	background-color: transparent;
 	font-size: 1.5rem;
+	border: none;
+	user-select: none;
 	cursor: pointer;
 }
 

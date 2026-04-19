@@ -88,6 +88,15 @@
 		"art_full":"https://nicholasjdi.github.io/data/Background.png"
 	},
 	{
+		"id":"test2",
+		"title":"Ephemeral",
+		"artists":["Geoxor"],
+		"type":"single",
+		"date":"2021-08-06",
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Ephemeral.mp3",
+		"art":"https://beta.geoxor.moe/covers/ephemeral.png"
+	},
+	{
 		"id":"blank"
 	}
 ]
