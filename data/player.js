@@ -43,7 +43,7 @@ function prepareAudio(song) {
 			audio.currentTime = data.time;
 		}
 		if (data?.playing) {
-			audio.play().catch(() => {});
+			audio.play().catch(() => { document.addEventListener('click', () => { audio.play().catch(() => {}); }, { once: true }); });
 		}
 		if (isMusic && loaded) {
 			updateState();
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		loop.onmousedown = () => { if ( isMusic && window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
-		if (isMusic) loop.classList.toggle('pressed', data?.loop || false);
+		if (isMusic) loop.classList.toggle('pressed', data?.loop ?? false);
 	}
 
 	if (isMusic) {
