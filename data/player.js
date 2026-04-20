@@ -50,10 +50,9 @@ function prepareAudio(song) {
 		}
 	};
 
-	audio.onended = () => { if (window.playerNext) window.playerNext(); };
+	audio.onended = () => { if (window.playerNext) window.playerNext(data.id); };
 
 	audio.onerror = playerError;
-
 	
 	let lastSecond = -1;
 	audio.ontimeupdate = () => {
@@ -103,6 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const length = player.querySelector('.player-length');
 		const bar = player.querySelector('.player-bar');
 
+		let seeking = false;
+
 		let lengthRaw = 0;
 		let lengthSeconds = 0;
 		let lengthMinutes = 0;
@@ -130,12 +131,17 @@ document.addEventListener("DOMContentLoaded", () => {
 			const timeMinutes = Math.floor(timeRaw / 60);
 			const timeHours = Math.floor(timeRaw / 3600);
 			time.textContent = `${lengthHours > 0 ? timeHours.toString().padStart(lengthHours.toString().length,"0") + ":" : ""}${lengthMinutes > 0 ? (lengthHours > 0 ? (timeMinutes % 60).toString().padStart(2, "0") + ":" : (timeMinutes % 60).toString().padStart((lengthMinutes % 60).toString().length,"0") + ":") : ""}${lengthSeconds > 0 ? (lengthMinutes > 0 ? (timeSeconds % 60).toString().padStart(2,"0") : (timeSeconds % 60).toString().padStart((lengthSeconds % 60).toString().length,"0")) : "0"}`;
-			bar.value = Math.floor(timeRaw);
+			if (!seeking) bar.value = Math.floor(timeRaw);
 		}
 
 		window.playerHide = () => { player.classList.remove('shown') };
 
-		playPause.onmousedown = () => {
+		bar.onpointerdown = () => { seeking = true; };
+		document.addEventListener('mouseup', () => { seeking = false; });
+
+		bar.oninput = () => { if (window.playerAudio) window.playerAudio.currentTime = bar.value; };
+
+		playPause.onpointerdown = () => {
 			const playing = !window.playerAudio.paused;
 			playPause.classList.toggle('pressed', !playing);
 
@@ -146,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		};
 
-		loop.onmousedown = () => { if ( isMusic && window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
+		loop.onpointerdown = () => { if ( isMusic && window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
 		loop.classList.toggle('pressed', data?.loop || !isMusic ? true : false);
 	}
 
@@ -156,8 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const next = player.querySelector('.player-button.next');
 		const previous = player.querySelector('.player-button.previous');
 		
-		next.onmousedown = () => { if (window.playerNext) window.playerNext(data.id); }
-		previous.onmousedown = () => { if (window.playerNext) window.playerPrevious(data.id); }	
+		next.onpointerdown = () => { if (window.playerNext) window.playerNext(data.id); }
+		previous.onpointerdown = () => { if (window.playerNext) window.playerPrevious(data.id); }	
 	}
 	
 	if (window.playerAudio) {
