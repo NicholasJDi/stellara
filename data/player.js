@@ -48,6 +48,7 @@ function prepareAudio(song) {
 			audio.play().catch(() => { document.addEventListener('click', () => { audio.play().catch(() => {}); }, { once: true }); });
 		}
 		if (loaded) {
+			updatePlayer();
 			updateState();
 		}
 	};
@@ -185,7 +186,8 @@ function songChanged(update = true) {
 	data = JSON.parse(saved);
 	data.playing = sessionStorage.getItem('player-playing') ?? false;
 
-	updatePlayer();
-	if (update) updateState();
-	if (playPause) playPause.classList.toggle('pressed', !window.playerAudio.paused);
+	if (update) {
+		updatePlayer();
+		updateState();
+	}
 }
