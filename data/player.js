@@ -12,7 +12,7 @@ try {
 
 	data = JSON.parse(saved);
 	if (!data?.song) throw null;
-	data.playing = sessionStorage.getItem('stellara-player-playing') || false;
+	data.playing = sessionStorage.getItem('player-playing') || false;
 
 	prepareAudio(data.song);
 } catch (e) {
@@ -23,7 +23,7 @@ function playerError(e) {
 	if (window.playerHide) {
 		window.playerHide();
 		localStorage.removeItem('player');
-		sessionStorage.removeItem('stellara-player-playing');
+		sessionStorage.removeItem('player-playing');
 	}
 }
 
@@ -61,7 +61,7 @@ function prepareAudio(song) {
 		const current = Math.floor(window.playerAudio.currentTime);
 		if (current !== lastSecond) {
 			lastSecond = current;
-			updateState();
+			if (loaded) updateState();
 		}
 	};
 	
@@ -81,7 +81,7 @@ window.addEventListener('beforeunload', () => {
 	state.time = window.playerAudio.currentTime || 0;
 	state.loop = window.playerAudio.loop || false;
 
-	sessionStorage.setItem('stellara-player-playing', !window.playerAudio.paused || false);
+	sessionStorage.setItem('player-playing', !window.playerAudio.paused || false);
 
 	localStorage.setItem('player', JSON.stringify(state));
 });
@@ -179,13 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	loaded = true;
 });
 
-function songChanged(updateState = true) {
+function songChanged(update = true) {
 	const saved = localStorage.getItem('player');
 	if (!saved) return;
 	data = JSON.parse(saved);
-	data.playing = sessionStorage.getItem('stellara-player-playing') || false;
+	data.playing = sessionStorage.getItem('player-playing') || false;
 
 	updatePlayer();
-	if (updateState) updateState();
+	if (update) updateState();
 	if (playPause) playPause.classList.toggle('pressed', !window.playerAudio.paused);
 }

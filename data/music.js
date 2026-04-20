@@ -414,11 +414,11 @@ function playSong(id) {
 	playerData.time = 0;
 
 	if (playerData.song) {
-		sessionStorage.setItem('stellara-player-playing', true);
+		sessionStorage.setItem('player-playing', true);
 		localStorage.setItem('player', JSON.stringify(playerData));
 	} else {
 		localStorage.removeItem('player');
-		sessionStorage.removeItem('stellara-player-playing');
+		sessionStorage.removeItem('player-playing');
 
 		if (window.playerHide) {
 			window.playerHide();
