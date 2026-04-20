@@ -12,7 +12,7 @@ try {
 
 	data = JSON.parse(saved);
 	if (!data?.song) throw null;
-	data.playing = sessionStorage.getItem('player-playing') || false;
+	data.playing = sessionStorage.getItem('player-playing') ?? false;
 
 	prepareAudio(data.song);
 } catch (e) {
@@ -183,7 +183,7 @@ function songChanged(update = true) {
 	const saved = localStorage.getItem('player');
 	if (!saved) return;
 	data = JSON.parse(saved);
-	data.playing = sessionStorage.getItem('player-playing') || false;
+	data.playing = sessionStorage.getItem('player-playing') ?? false;
 
 	updatePlayer();
 	if (update) updateState();
