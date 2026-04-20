@@ -82,7 +82,7 @@ window.addEventListener('beforeunload', () => {
 
 	localStorage.setItem('player', JSON.stringify(state));
 });
-
+let playPause = null;
 let updatePlayer = () => {console.warn('updatePlayer() was called before load')};
 let updateState = () => {console.warn('updateState() was called before load')};
 document.addEventListener("DOMContentLoaded", () => {
@@ -94,13 +94,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		const title = player.querySelector('.player-title');
 		const artist = player.querySelector('.player-artist');
 
-		const playPause = player.querySelector('.player-button.play-pause');
 		const loop = player.querySelector('.player-button.loop');
 		const volume = player.querySelector('.player-button.volume'); // this is for later :3
-
+		
 		const time = player.querySelector('.player-time');
 		const length = player.querySelector('.player-length');
 		const bar = player.querySelector('.player-bar');
+
+		playPause = player.querySelector('.player-button.play-pause');
 
 		let seeking = false;
 
@@ -181,4 +182,5 @@ function songChanged() {
 
 	updatePlayer();
 	updateState();
+	if (playPause) playPause.classList.toggle('pressed', !window.playerAudio.paused);
 }
