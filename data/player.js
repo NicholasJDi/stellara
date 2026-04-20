@@ -12,6 +12,7 @@ try {
 
 	data = JSON.parse(saved);
 	if (!data?.song) throw null;
+	data.playing = sessionStorage.getItem('stellara-player-playing') || false;
 
 	prepareAudio(data.song);
 } catch (e) {
@@ -22,6 +23,7 @@ function playerError(e) {
 	if (window.playerHide) {
 		window.playerHide();
 		localStorage.removeItem('player');
+		sessionStorage.removeItem('stellara-player-playing');
 	}
 }
 
@@ -33,8 +35,8 @@ function prepareAudio(song) {
 	}
 	
 	audio.onloadedmetadata = () => {
-		if (isMusic && loaded) {
-			songChanged();
+		if (loaded) {
+			songChanged(false);
 		}
 		if (!isMusic) {
 			audio.loop = true;
@@ -45,7 +47,7 @@ function prepareAudio(song) {
 		if (data?.playing) {
 			audio.play().catch(() => { document.addEventListener('click', () => { audio.play().catch(() => {}); }, { once: true }); });
 		}
-		if (isMusic && loaded) {
+		if (loaded) {
 			updateState();
 		}
 	};
@@ -77,11 +79,13 @@ window.addEventListener('beforeunload', () => {
 	if (!state) return;
 
 	state.time = window.playerAudio.currentTime || 0;
-	state.playing = !window.playerAudio.paused || false;
 	state.loop = window.playerAudio.loop || false;
+
+	sessionStorage.setItem('stellara-player-playing', !window.playerAudio.paused || false);
 
 	localStorage.setItem('player', JSON.stringify(state));
 });
+
 let playPause = null;
 let updatePlayer = () => {console.warn('updatePlayer() was called before load')};
 let updateState = () => {console.warn('updateState() was called before load')};
@@ -175,12 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	loaded = true;
 });
 
-function songChanged() {
+function songChanged(updateState = true) {
 	const saved = localStorage.getItem('player');
 	if (!saved) return;
 	data = JSON.parse(saved);
+	data.playing = sessionStorage.getItem('stellara-player-playing') || false;
 
 	updatePlayer();
-	updateState();
+	if (updateState) updateState();
 	if (playPause) playPause.classList.toggle('pressed', !window.playerAudio.paused);
 }

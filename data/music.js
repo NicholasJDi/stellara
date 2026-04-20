@@ -412,15 +412,20 @@ function playSong(id) {
 	playerData.art = song.art ?? song.art_high_res ?? '';
 	playerData.song = src;
 	playerData.time = 0;
-	playerData.playing = true;
+
 	if (playerData.song) {
+		sessionStorage.setItem('stellara-player-playing', true);
 		localStorage.setItem('player', JSON.stringify(playerData));
 	} else {
 		localStorage.removeItem('player');
+		sessionStorage.removeItem('stellara-player-playing');
+
 		if (window.playerHide) {
 			window.playerHide();
 		}
 	}
+	window.playerAudio.pause();
+	window.playerAudio.currentTime = 0;
 	window.playerAudio.src = src;
 	window.playerAudio.play().catch(() => { if (window.playerHide) window.playerHide(); });
 }
