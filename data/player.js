@@ -50,6 +50,8 @@ function prepareAudio(song) {
 		}
 	};
 
+	audio.onended = () => { if (window.playerNext) window.playerNext(); };
+
 	audio.onerror = playerError;
 
 	
@@ -75,9 +77,9 @@ window.addEventListener('beforeunload', () => {
 	const state = JSON.parse(saved);
 	if (!state) return;
 
-	state.time = window.playerAudio.currentTime;
-	state.playing = !window.playerAudio.paused;
-	state.loop = window.playerAudio.loop;
+	state.time = window.playerAudio.currentTime || 0;
+	state.playing = !window.playerAudio.paused || false;
+	state.loop = window.playerAudio.loop || false;
 
 	localStorage.setItem('player', JSON.stringify(state));
 });
