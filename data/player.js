@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		loop.onmousedown = () => { if ( isMusic && window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
-		if (isMusic) loop.classList.toggle('pressed', data?.loop ?? false);
+		loop.classList.toggle('pressed', data?.loop || !isMusic ? true : false);
 	}
 
 	if (isMusic) {
