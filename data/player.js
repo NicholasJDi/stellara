@@ -12,7 +12,6 @@ try {
 
 	data = JSON.parse(saved);
 	if (!data?.song) throw null;
-	data.playing = sessionStorage.getItem('player-playing') ?? false;
 
 	prepareAudio(data.song);
 } catch (e) {
@@ -38,14 +37,14 @@ function prepareAudio(song) {
 		if (loaded) {
 			songChanged(false);
 		}
-		if (!isMusic) {
-			audio.loop = true;
-		}
 		if (data?.time) {
 			audio.currentTime = data.time;
 		}
 		if (data?.playing) {
-			audio.play().catch(() => { document.addEventListener('click', () => { audio.play().catch(() => {}); }, { once: true }); });
+			audio.play().catch(() => { document.addEventListener('click', () => { audio.play().catch(() => {}); updatePlayer(); updateState(); }, { once: true }); });
+		}
+		if (!isMusic) {
+			audio.loop = true;
 		}
 		if (loaded) {
 			updatePlayer();
@@ -158,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		};
 
-		loop.onpointerdown = () => { if ( isMusic && window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
-		loop.classList.toggle('pressed', data?.loop || !isMusic ? true : false);
+		if (isMusic) loop.onpointerdown = () => { if ( window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
+		loop.classList.toggle('pressed', (data?.loop || !isMusic));
 	}
 
 	if (isMusic) {
@@ -184,7 +183,7 @@ function songChanged(update = true) {
 	const saved = localStorage.getItem('player');
 	if (!saved) return;
 	data = JSON.parse(saved);
-	data.playing = sessionStorage.getItem('player-playing') ?? false;
+	data.playing = sessionStorage.getItem('player-playing') === 'true';
 
 	if (update) {
 		updatePlayer();
