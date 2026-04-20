@@ -43,7 +43,7 @@ function prepareAudio(song) {
 			audio.currentTime = data.time;
 		}
 		if (data?.playing) {
-			audio.play().catch(playerError);
+			audio.play().catch(() => {});
 		}
 		if (isMusic && loaded) {
 			updateState();
@@ -174,4 +174,3 @@ function songChanged() {
 	updatePlayer();
 	updateState();
 }
-
