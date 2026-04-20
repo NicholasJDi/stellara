@@ -1,0 +1,105 @@
+.player {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(45, 45, 45);
+	border-radius: 1em;
+	width: 90%;
+	padding: 0.5em;
+	padding-bottom: 0.7em;
+	padding-top: 1em;
+	margin: 0 auto;
+}
+
+.player.shown { display: flex; }
+
+.player:has(.player-cover-art.hidden) {
+	padding-top: 0.5em;
+}
+
+.player:not(.expanded) .player-button.next, .player:not(.expanded) .player-button.previous { display: none; }
+
+.player-details {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 0.5em;
+	gap: 0.3em;
+}
+
+.player-cover-art {
+	background-color: black;
+	border: 0.1em solid rgb(100, 100, 100);
+	width: 70%;
+	aspect-ratio: 1;
+	user-select: none;
+}
+
+.player-cover-art.hidden { display: none; }
+
+.player-title {
+	font-family: 'Jersey 25', Verdana, serif;
+	text-wrap: balance;
+	hyphens: auto;
+	padding: 0;
+	margin: 0;
+}
+
+.player-artist {
+	font-family: unset;
+	font-size: 0.8em;
+	text-wrap: balance;
+	hyphens: auto;
+	padding: 0;
+	margin: 0;
+}
+
+.player-controls {
+	display: flex;
+	flex-direction: row;
+	user-select: none;
+}
+
+.player-button {
+	font-size: 1em;
+	color: white;
+	background-color: transparent;
+	border: none;
+}
+
+.player-button.volume { display: none; }
+
+.player-button:active, .player-button.pressed {
+	color: lightblue;
+}
+
+.player-button.pressed:active {
+	color: lightskyblue;
+}
+
+.player-info {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
+	margin-top: 0.3em;
+}
+
+.player-bar {
+	width: 0;
+	flex: 1;
+}
+
+.player-time {
+	font-size: 0.7em;
+	padding: 0;
+	margin: 0;
+}
+
+.player-length {
+	font-size: 0.7em;
+	padding: 0;
+	margin: 0;
+}

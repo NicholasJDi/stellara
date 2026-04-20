@@ -9,7 +9,7 @@ if (sidebar) {
 	sidebar.classList.add('no-anim');
 	if (!sidebarParam && (!sidebar.classList.contains('closed') && !sidebar.classList.contains('open'))) {
 		// Restore saved state (if any)
-		if (localStorage.getItem('sidebar-open') !== 'false') {
+		if (sessionStorage.getItem('sidebar-open') !== 'false') {
 			sidebar.classList.add('open');
 		} else {
 			sidebar.classList.remove('open');
@@ -34,7 +34,7 @@ if (sidebar) {
 
 	// Save initial state
 	isOpen = sidebar.classList.contains('open');
-	localStorage.setItem('sidebar-open', isOpen ? 'true' : 'false');
+	sessionStorage.setItem('sidebar-open', isOpen ? 'true' : 'false');
 
 	// Allow animations after initial state is applied
 	setTimeout(() => { sidebar.classList.remove('no-anim'); }, 1000);
@@ -44,7 +44,7 @@ if (sidebar) {
 		btn.addEventListener('click', ()=>{
 			isOpen = sidebar.classList.toggle('open');
 			sidebar.classList.remove('no-anim');
-			localStorage.setItem('sidebar-open', isOpen ? 'true' : 'false');
+			sessionStorage.setItem('sidebar-open', isOpen ? 'true' : 'false');
 		});
 	}
 }

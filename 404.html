@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="data/style.css" type="text/css" media="all">
 	<link rel="stylesheet" href="data/sidebar.css" type="text/css" media="all">
 	<script defer src="data/sidebar.js"></script>
+	<link rel="stylesheet" href="data/player.css" type="text/css" media="all">
+	<script src="data/player.js"></script>
 </head>
 <body>
 	<div class="topbar">
@@ -30,6 +32,25 @@
 			<h2 class="page-index-item">
                 <a class="page-link" href="https://nicholasjdi.github.io/stellara/music">Music</a>
 			</h2>
+			<div class="player">
+				<div class="player-details">
+					<img class="player-cover-art" src="https://beta.geoxor.moe/covers/moonlight.png">
+					<p class="player-title">Rain of Past Times</p>
+					<p class="player-artist">by Stellara</p>
+				</div>
+				<div class="player-controls">
+					<button class="player-button loop pressed" >L</button>
+					<button class="player-button previous">P</button>
+					<button class="player-button play-pause">H</button>
+					<button class="player-button next">N</button>
+					<button class="player-button volume">V</button>
+				</div>
+				<div class="player-info">
+					<p class="player-time">0</p>
+					<input class="player-bar" type="range" max="1000" min="0">
+					<p class="player-length">0</p>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="content content-inner">

@@ -61,10 +61,6 @@ if (rawData && searchScheme && sortScheme && songList) {
 				console.error(`${JSON.stringify(song)} does not include an id`);
 				continue;
 			}
-			const file = song.file_art ?? song.file ?? song.file_library ?? '';
-			if (!file) {
-				console.warn(`${JSON.stringify(song)} does not include a file`);
-			}
 			const art = song.art ?? song.art_high_res ?? '';
 			const art_high_res = song.art_high_res ?? song.art ?? '';
 			if (!art || !art_high_res) {
@@ -87,7 +83,7 @@ if (rawData && searchScheme && sortScheme && songList) {
 			// set the items content
 			songListItem.innerHTML = `
 				<a class="cover-art link" target="_blank" href="${art_high_res}">
-					<img class="cover-art image" src="${art}" alt="Cover Art">
+					<img class="cover-art image" src="${art}" onerror="this.style.visibility='hidden'">
 				</a>
 				<div class="content-box">
 					<div class="details-box">
@@ -104,7 +100,7 @@ if (rawData && searchScheme && sortScheme && songList) {
 							</div>
 						</div>
 						<div class="dropdown-box">
-							<a class="download-button" target="_blank" download="" href="${file}">Download</a>
+							<button class="play-button"><svg width="1.3em" height="1.3em" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.322 7.576a.5.5 0 0 1 0 .848l-6.557 4.098A.5.5 0 0 1 5 12.098V3.902a.5.5 0 0 1 .765-.424z" fill="currentColor"/></svg> Play</button>
 							<button class="dropdown-button">V</button>
 						</div>
 					</div>
@@ -132,6 +128,17 @@ if (rawData && searchScheme && sortScheme && songList) {
 			handleDropdownClick(id, dropdownBox);
 
 			event.stopPropagation();
+		});
+
+		songList.addEventListener('click', (event) => {
+			const button = event.target.closest('.play-button');
+			if (!button) return;
+
+			const songItem = button.closest('.song-list-item');
+			if (!songItem) return;
+			const id = songItem.id;
+
+			playSong(id);
 		});
 
 		document.addEventListener('click', (event) => {
@@ -327,14 +334,14 @@ function setDropdownContent(id) {
 
 function showDropdown(dropdownBox) {
 	dropdownBox.appendChild(dropdown);
-	dropdownBox.querySelector('.download-button').style.zIndex = 101;
+	dropdownBox.querySelector('.play-button').style.zIndex = 101;
 	dropdownBox.querySelector('.dropdown-button').style.zIndex = 101;
 	dropdown.classList.add('open');
 }
 
 function hideDropdown(dropdownBox) {
 	dropdown.classList.remove('open');
-	dropdownBox.querySelector('.download-button').style.zIndex = '';
+	dropdownBox.querySelector('.play-button').style.zIndex = '';
 	dropdownBox.querySelector('.dropdown-button').style.zIndex = '';
 }
 
@@ -388,4 +395,71 @@ function isValidUrl(string) {
 	} catch (err) {
 		return false;
 	}
+}
+
+function playSong(id) {
+	const song = data.get(id);
+	const src = song.file_art ?? song.file ?? song.file_library ?? '';
+	let playerData = {};
+	if (!window.playerAudio) {
+		window.playerPrepare();
+		window.playerNext = nextSong;
+		window.playerPrevious = previousSong;
+	}
+	playerData.id = id;
+	playerData.title = song.title ?? 'Unknown';
+	playerData.artist = song.artists?.join(', ') ?? 'Unknown';
+	playerData.art = song.art ?? song.art_high_res ?? '';
+	playerData.song = src;
+	playerData.time = 0;
+	playerData.playing = true;
+	if (playerData.song) {
+		localStorage.setItem('player', JSON.stringify(playerData));
+	} else {
+		localStorage.removeItem('player');
+		if (window.playerHide) {
+			window.playerHide();
+		}
+	}
+	window.playerAudio.src = src;
+	window.playerAudio.play().catch(() => { if (window.playerHide) window.playerHide(); });
+}
+
+function nextSong(currentId) {
+	const items = [...visibleSongListItems].filter(el =>
+		el.classList?.contains('song-list-item')
+	);
+
+	if (items.length === 0) {
+		playSong(currentId);
+		return;
+	}
+
+	const currentIndex = items.findIndex(el => el.id === currentId);
+	const nextIndex = currentIndex === -1 || currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+
+	const nextItem = items[nextIndex];
+	playSong(nextItem.id);
+}
+
+function previousSong(currentId) {
+	const items = [...visibleSongListItems].filter(el =>
+		el.classList?.contains('song-list-item')
+	);
+
+	if (items.length === 0) {
+		playSong(currentId);
+		return;
+	}
+
+	const currentIndex = items.findIndex(el => el.id === currentId);
+	const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+
+	const prevItem = items[prevIndex];
+	playSong(prevItem.id);
+}
+
+if (window.playerAudio) {
+	window.playerNext = nextSong;
+	window.playerPrevious = previousSong;
 }
