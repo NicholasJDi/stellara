@@ -14,9 +14,7 @@
 
 .player.shown { display: flex; }
 
-.player:has(.player-cover-art.hidden) {
-	padding-top: 0.5em;
-}
+.player:has(.player-cover-art.hidden) { padding-top: 0.5em; }
 
 .player:not(.expanded) .player-button.next, .player:not(.expanded) .player-button.previous { display: none; }
 
@@ -28,13 +26,27 @@
 	gap: 0.3em;
 }
 
-.player-cover-art {
+.player-cover {
 	background-color: black;
 	border: 0.1em solid rgb(100, 100, 100);
+	border-radius: 0.25em;
 	width: 70%;
 	aspect-ratio: 1;
+	overflow: hidden;
 	user-select: none;
 }
+
+.player-cover-art {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	transition: width 0.11s ease-out, height 0.11s ease-out;
+}
+
+.player-cover-art:hover { width: 105%; height: 105%; }
 
 .player-cover-art.hidden { display: none; }
 
@@ -58,7 +70,9 @@
 .player-controls {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	user-select: none;
+	gap: 0.2em;
 }
 
 .player-button {
@@ -66,17 +80,44 @@
 	color: white;
 	background-color: transparent;
 	border: none;
+	padding: 0;
+	margin: 0;
 }
 
-.player-button.volume { display: none; }
+.player-button.pressed { color: lightblue; }
 
-.player-button:active, .player-button.pressed {
-	color: lightblue;
+.player-button:active { color: lightskyblue;}
+
+.player-button.play-pause {
+	background-color: rgb(55, 55, 55);
+	border-radius: 9999px;
+	width: 1.7em;
+	height: 1.7em;
+	padding: 0.25em;
 }
 
-.player-button.pressed:active {
-	color: lightskyblue;
+.player-button.play-pause.pressed { color: white; }
+
+.player-button.play-pause.pressed .player-play, .player-button.play-pause:not(.pressed) .player-pause { display: none; }
+
+.player-button.play-pause:active, .player-button.next:active, .player-button.previous:active { color: lightblue; }
+
+.player-button.next, .player-button.previous {
+	width: 0.9em;
+	height: 0.9em;
 }
+
+.player-button.loop {
+	width: 0.9em;
+	height: 0.9em;
+}
+
+.player-button.volume {
+	width: 0.9em;
+	height: 0.9em;
+}
+
+.player-button.volume:not(.low) .player-volume-low, .player-button.volume:not(.muted) .player-volume-muted, .player-button.volume.low .player-volume, .player-button.volume.muted .player-volume { display: none; }
 
 .player-info {
 	display: flex;

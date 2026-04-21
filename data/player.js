@@ -32,7 +32,7 @@ function prepareAudio(song) {
 	} else {
 		audio = new Audio();
 	}
-	
+
 	audio.onloadedmetadata = () => {
 		if (loaded) {
 			songChanged(false);
@@ -55,7 +55,7 @@ function prepareAudio(song) {
 	audio.onended = () => { if (window.playerNext) window.playerNext(data.id); };
 
 	audio.onerror = playerError;
-	
+
 	let lastSecond = -1;
 	audio.ontimeupdate = () => {
 		const current = Math.floor(window.playerAudio.currentTime);
@@ -64,7 +64,7 @@ function prepareAudio(song) {
 			if (loaded) updateState();
 		}
 	};
-	
+
 	window.playerAudio = audio
 }
 window.playerPrepare = prepareAudio;
@@ -98,12 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		const title = player.querySelector('.player-title');
 		const artist = player.querySelector('.player-artist');
 
-		const loop = player.querySelector('.player-button.loop');
-		const volume = player.querySelector('.player-button.volume'); // this is for later :3
-		
 		const time = player.querySelector('.player-time');
 		const length = player.querySelector('.player-length');
 		const bar = player.querySelector('.player-bar');
+
+		const loop = player.querySelector('.player-button.loop');
+		const volume = player.querySelector('.player-button.volume'); // this is for later :3
 
 		playPause = player.querySelector('.player-button.play-pause');
 
@@ -115,10 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		let lengthHours = 0;
 		updatePlayer = () => {
 			// UI Update
-			art.classList.toggle('hidden', !data?.art)
+			art.parentElement.classList.toggle('hidden', !data?.art)
 			art.src = data?.art;
-			title.textContent = data?.title || '';
-			artist.textContent = `by ${data?.artist}`;
+			title.textContent = data?.title ?? 'Unknown';
+			artist.textContent = `by ${data?.artist ?? 'Unkown'}`;
 			lengthRaw = window.playerAudio.duration;
 			lengthSeconds = Math.floor(lengthRaw);
 			lengthMinutes = Math.floor(lengthRaw / 60);
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			playPause.classList.toggle('pressed', !window.playerAudio.paused);
 			if (data?.song) player.classList.add('shown');
 		}
-		
+
 		updateState = () => {
 			// Time Update
 			const timeRaw = window.playerAudio.currentTime;
@@ -163,14 +163,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	if (isMusic) {
 		player.classList.add('expanded');
-		
+
 		const next = player.querySelector('.player-button.next');
 		const previous = player.querySelector('.player-button.previous');
-		
+
 		next.onpointerdown = () => { if (window.playerNext) window.playerNext(data.id); }
-		previous.onpointerdown = () => { if (window.playerNext) window.playerPrevious(data.id); }	
+		previous.onpointerdown = () => { if (window.playerNext) window.playerPrevious(data.id); }
 	}
-	
+
 	if (window.playerAudio) {
 		updatePlayer();
 		updateState();

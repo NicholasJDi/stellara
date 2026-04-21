@@ -34,20 +34,33 @@
 			</h2>
 			<div class="player">
 				<div class="player-details">
-					<img class="player-cover-art" src="https://beta.geoxor.moe/covers/moonlight.png">
-					<p class="player-title">Rain of Past Times</p>
-					<p class="player-artist">by Stellara</p>
+					<div class="player-cover"><img class="player-cover-art"></div>
+					<p class="player-title">Unknown</p>
+					<p class="player-artist">by Unknown</p>
 				</div>
 				<div class="player-controls">
-					<button class="player-button loop" >L</button>
-					<button class="player-button previous">P</button>
-					<button class="player-button play-pause">H</button>
-					<button class="player-button next">N</button>
-					<button class="player-button volume">V</button>
+					<button class="player-button loop" >
+						<svg class="player-loop" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.25 8A4.75 4.75 0 0 1 6 3.25h4a4.75 4.75 0 1 1 0 9.5H5.31l.72.72-1.06 1.06L2.44 12l2.53-2.53 1.06 1.06-.72.72H10a3.25 3.25 0 0 0 0-6.5H6a3.25 3.25 0 0 0-2.923 4.673l-1.101 1.101A4.73 4.73 0 0 1 1.25 8" fill="currentColor"/></svg>
+					</button>
+					<button class="player-button previous">
+						<svg class="player-previous" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.444 3A.447.447 0 0 0 4 3.45v17.1c0 .248.199.45.444.45h1.778a.447.447 0 0 0 .445-.45v-7.988L19.32 20.57a.444.444 0 0 0 .68-.382V3.812a.444.444 0 0 0-.68-.382L6.667 11.438V3.45A.447.447 0 0 0 6.222 3z" fill="currentColor"/></svg>
+					</button>
+					<button class="player-button play-pause">
+						<svg class="player-play" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.322 7.576a.5.5 0 0 1 0 .848l-6.557 4.098A.5.5 0 0 1 5 12.098V3.902a.5.5 0 0 1 .765-.424z" fill="currentColor"/></svg>
+						<svg class="player-pause" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 4.5c0-.276-.252-.5-.563-.5H5.563C5.252 4 5 4.224 5 4.5v15c0 .276.252.5.563.5h3.875c.31 0 .562-.224.562-.5zm9 0c0-.276-.252-.5-.563-.5h-3.875c-.31 0-.562.224-.562.5v15c0 .276.252.5.563.5h3.874c.311 0 .563-.224.563-.5z" fill="currentColor"/></svg>
+					</button>
+					<button class="player-button next">
+						<svg class="player-next" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.778 3a.447.447 0 0 0-.445.45v7.988L4.68 3.43a.444.444 0 0 0-.68.382v16.376c0 .354.384.569.68.382l12.653-8.007v7.987c0 .248.2.45.445.45h1.778a.447.447 0 0 0 .444-.45V3.45a.447.447 0 0 0-.444-.45z" fill="currentColor"/></svg>
+					</button>
+					<button class="player-button volume">
+						<svg class="player-volume" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.146 1.854A.5.5 0 0 1 8 2.207v11.586a.5.5 0 0 1-.854.354L4 11H1.5a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5H4zM15 8a6 6 0 0 1-5.5 5.98v-1.508a4.5 4.5 0 0 0 0-8.945V2.021A6 6 0 0 1 15 8" fill="currentColor"/><path d="M12 8a3 3 0 0 1-2.5 2.959V5.04A3 3 0 0 1 12 8" fill="currentColor"/></svg>
+						<svg class="player-volume-low" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.146 1.854A.5.5 0 0 1 8 2.207v11.586a.5.5 0 0 1-.854.354L4 11H1.5a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5H4zM12 8a3 3 0 0 1-2.5 2.959V5.04A3 3 0 0 1 12 8" fill="currentColor"/></svg>
+						<svg class="player-volume-muted" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.146 1.854A.5.5 0 0 1 8 2.207v11.586a.5.5 0 0 1-.854.354L4 11H1.5a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5H4zm6.324 8.676L12 9.06l-1.47 1.47-1.06-1.06L10.94 8 9.47 6.53l1.06-1.06L12 6.94l1.47-1.47 1.06 1.06L13.06 8l1.47 1.47z" fill="currentColor"/></svg>
+					</button>
 				</div>
 				<div class="player-info">
 					<p class="player-time">0</p>
-					<input class="player-bar" type="range" max="1000" min="0">
+					<input class="player-bar" type="range">
 					<p class="player-length">0</p>
 				</div>
 			</div>
