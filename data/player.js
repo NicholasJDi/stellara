@@ -154,12 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
 						artwork: data?.art ? [{ src: data.art }] : []
 					})
 				
-					navigator.mediaSession.setPositionState({
-						playbackRate: window.playerAudio.playbackRate || 0,
-						duration: window.playerAudio.duration || 0,
-						position: window.playerAudio.currentTime || 0
-					});
-				
 					navigator.mediaSession.playbackState = window.playerAudio.paused ? 'paused' : 'playing';
 				} else {
 					navigator.mediaSession.playbackState = 'none';
