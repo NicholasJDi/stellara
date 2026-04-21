@@ -86,7 +86,6 @@ window.addEventListener('beforeunload', () => {
 	localStorage.setItem('player', JSON.stringify(state));
 });
 
-let playPause = null;
 let updatePlayer = () => {console.warn('updatePlayer() was called before load')};
 let updateState = () => {console.warn('updateState() was called before load')};
 document.addEventListener("DOMContentLoaded", () => {
@@ -102,10 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		const length = player.querySelector('.player-length');
 		const bar = player.querySelector('.player-bar');
 
+		const playPause = player.querySelector('.player-button.play-pause');
 		const loop = player.querySelector('.player-button.loop');
 		const volume = player.querySelector('.player-button.volume'); // this is for later :3
-
-		playPause = player.querySelector('.player-button.play-pause');
 
 		let seeking = false;
 
@@ -125,11 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			lengthHours = Math.floor(lengthRaw / 3600);
 			length.textContent = `${lengthHours > 0 ? lengthHours.toString() + ":" : ""}${lengthMinutes > 0 ? (lengthHours > 0 ? (lengthMinutes % 60).toString().padStart(2, "0") + ":" : (lengthMinutes % 60).toString() + ":") : ""}${lengthSeconds > 0 ? (lengthMinutes > 0 ? (lengthSeconds % 60).toString().padStart(2,"0") : (lengthSeconds % 60).toString()) : "0"}`;
 			bar.max = Math.floor(lengthRaw);
-			playPause.classList.toggle('pressed', !window.playerAudio.paused);
 			if (data?.song) player.classList.add('shown');
 		}
-
+		
 		updateState = () => {
+			// Playing Update
+			playPause.classList.toggle('pressed', !window.playerAudio.paused);
 			// Time Update
 			const timeRaw = window.playerAudio.currentTime;
 			const timeSeconds = Math.floor(timeRaw);
