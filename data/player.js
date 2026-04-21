@@ -65,6 +65,10 @@ function prepareAudio(song) {
 		}
 	};
 
+	audio.onplay = () => { if (loaded) updateState(true); }
+	audio.onpause = () => { if (loaded) updateState(true); }
+	audio.onseeked = () => { if (loaded) updateState(true); }
+
 	window.playerAudio = audio
 }
 window.playerPrepare = prepareAudio;
@@ -124,9 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			length.textContent = `${lengthHours > 0 ? lengthHours.toString() + ":" : ""}${lengthMinutes > 0 ? (lengthHours > 0 ? (lengthMinutes % 60).toString().padStart(2, "0") + ":" : (lengthMinutes % 60).toString() + ":") : ""}${lengthSeconds > 0 ? (lengthMinutes > 0 ? (lengthSeconds % 60).toString().padStart(2,"0") : (lengthSeconds % 60).toString()) : "0"}`;
 			bar.max = Math.floor(lengthRaw);
 			if (data?.song) player.classList.add('shown');
+			syncMediaSession();
 		}
 		
-		updateState = () => {
+		updateState = (sync) => {
 			// Playing Update
 			playPause.classList.toggle('pressed', !window.playerAudio.paused);
 			// Time Update
@@ -136,9 +141,34 @@ document.addEventListener("DOMContentLoaded", () => {
 			const timeHours = Math.floor(timeRaw / 3600);
 			time.textContent = `${lengthHours > 0 ? timeHours.toString().padStart(lengthHours.toString().length,"0") + ":" : ""}${lengthMinutes > 0 ? (lengthHours > 0 ? (timeMinutes % 60).toString().padStart(2, "0") + ":" : (timeMinutes % 60).toString().padStart((lengthMinutes % 60).toString().length,"0") + ":") : ""}${lengthSeconds > 0 ? (lengthMinutes > 0 ? (timeSeconds % 60).toString().padStart(2,"0") : (timeSeconds % 60).toString().padStart((lengthSeconds % 60).toString().length,"0")) : "0"}`;
 			if (!seeking) bar.value = Math.floor(timeRaw);
+			if (sync) syncMediaSession();
 		}
 
-		window.playerHide = () => { player.classList.remove('shown') };
+		function syncMediaSession(clear = false) {
+			if (navigator.mediaSession && window.playerAudio) {
+
+				if (!clear) {
+					navigator.mediaSession.metadata = new MediaMetadata({
+						title: data?.title ?? '',
+						artist: data?.artist ?? '',
+						artwork: data?.art ? [{ src: data.art }] : []
+					})
+				
+					navigator.mediaSession.setPositionState({
+						playbackRate: window.playerAudio.playbackRate || 0,
+						duration: window.playerAudio.duration || 0,
+						position: window.playerAudio.currentTime || 0
+					});
+				
+					navigator.mediaSession.playbackState = window.playerAudio.paused ? 'paused' : 'playing';
+				} else {
+					navigator.mediaSession.playbackState = 'none';
+					navigator.mediaSession.metadata = null;
+				}
+			}
+		}
+
+		window.playerHide = () => { player.classList.remove('shown'); syncMediaSession(true); };
 
 		bar.onpointerdown = () => { seeking = true; };
 		document.addEventListener('mouseup', () => { seeking = false; });
@@ -158,6 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		if (isMusic) loop.onpointerdown = () => { if ( window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
 		loop.classList.toggle('pressed', (data?.loop || !isMusic));
+
+		navigator.mediaSession?.setActionHandler('play', () => {
+			if (window.playerAudio) window.playerAudio.play();
+		});
+
+		navigator.mediaSession?.setActionHandler('pause', () => {
+			if (window.playerAudio) window.playerAudio.pause();
+		});
 	}
 
 	if (isMusic) {
@@ -168,6 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		next.onpointerdown = () => { if (window.playerNext) window.playerNext(data.id); }
 		previous.onpointerdown = () => { if (window.playerNext) window.playerPrevious(data.id); }
+
+		navigator.mediaSession?.setActionHandler('nexttrack', () => {
+			if (window.playerNext) window.playerNext(data.id);
+		});
+
+		navigator.mediaSession?.setActionHandler('previoustrack', () => {
+			if (window.playerPrevious) window.playerPrevious(data.id);
+		});
 	}
 
 	if (window.playerAudio) {
