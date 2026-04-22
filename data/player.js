@@ -224,6 +224,21 @@ document.addEventListener("DOMContentLoaded", () => {
 		navigator.mediaSession?.setActionHandler('pause', () => {
 			if (window.playerAudio) window.playerAudio.pause();
 		});
+
+		navigator.mediaSession?.setActionHandler('stop', () => {
+			playerStop();
+		});
+
+		navigator.mediaSession?.setActionHandler('seekto', (seekTime) => {
+			if (window.playerAudio) window.playerAudio.currentTime = seekTime || 0;
+		});
+
+		navigator.mediaSession?.setActionHandler('seekforward', (seekOffset) => {
+			if (window.playerAudio) window.playerAudio.currentTime = window.playerAudio.currentTime + seekOffset;
+		});
+		navigator.mediaSession?.setActionHandler('seekbackward', (seekOffset) => {
+			if (window.playerAudio) window.playerAudio.currentTime = window.playerAudio.currentTime - seekOffset;
+		});
 	}
 
 	if (isMusic) {
