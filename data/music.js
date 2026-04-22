@@ -82,21 +82,21 @@ if (rawData && searchScheme && sortScheme && songList) {
 
 			// set the items content
 			songListItem.innerHTML = `
-				<a class="cover-art link" target="_blank" href="${art_high_res}">
-					<img class="cover-art image" src="${art}" onerror="this.style.visibility='hidden'">
+				<a class="cover-art link" target="_blank">
+					<img class="cover-art image" onerror="this.style.visibility='hidden'">
 				</a>
 				<div class="content-box">
 					<div class="details-box">
-						<p class="title-text">${title}</p>
-						<p class="artist-text">${artists}</p>
+						<p class="title-text"></p>
+						<p class="artist-text"></p>
 					</div>
 					<div class="right-box">
 						<div class="info-box">
 							<div class="date-box">
-								<p class="date-text">${date}</p>
+								<p class="date-text"></p>
 							</div>
 							<div class="type-box">
-								<p class="type-text ${type.toLowerCase()}" title="${album}">${type}</p>
+								<p class="type-text"></p>
 							</div>
 						</div>
 						<div class="dropdown-box">
@@ -105,8 +105,24 @@ if (rawData && searchScheme && sortScheme && songList) {
 						</div>
 					</div>
 				</div>
-			`
+			`;
 
+			// assign the items data
+			songListItem.querySelector('.title-text').textContent = title;
+			songListItem.querySelector('.artist-text').textContent = artists;
+			songListItem.querySelector('.date-text').textContent = date;
+
+			const typeText = songListItem.querySelector('.type-text');
+			typeText.textContent = type;
+			typeText.classList.add(type.toLowerCase());
+			typeText.title = album;
+
+			const link = songListItem.querySelector('.cover-art.link');
+			link.href = art_high_res;
+
+			const cover = songListItem.querySelector('.cover-art.image');
+			cover.src = art;
+			
 			// add the item
 			songListItems.set(id, songListItem);
 			songList.appendChild(songListItem);
@@ -375,15 +391,35 @@ function setTrackInfoMenuContent(id) {
 
 function setRawDataMenuContent(id) {
 	const song = data.get(id);
+	rawDataMenu.innerHTML = '';
 
-	const raw = [];
 	for (const [key, value] of Object.entries(song)) {
-		const title = `<h3 class="raw-data-title">${key.replaceAll('_',' ')}</h3>`
-		const text = `<p class="raw-data-text">${Array.isArray(value) ? value.join(', ') : isValidUrl(value) ? `<a target="_blank" href="${value}">${value}</a>` : value}</p>`
-		const data = `<div class="raw-data-item">${title}${text}</div>`
-		raw.push(data);
+		const item = document.createElement('div');
+		item.className = 'raw-data-item';
+
+		const title = document.createElement('h3');
+		title.className = 'raw-data-title';
+		title.textContent = key.replaceAll('_', ' ');
+
+		const text = document.createElement('p');
+		text.className = 'raw-data-text';
+
+		if (Array.isArray(value)) {
+			text.textContent = value.join(', ');
+		} else if (isValidUrl(value)) {
+			const link = document.createElement('a');
+			link.href = value;
+			link.target = '_blank';
+			link.textContent = value;
+			text.appendChild(link);
+		} else {
+			text.textContent = value;
+		}
+
+		item.appendChild(title);
+		item.appendChild(text);
+		rawDataMenu.appendChild(item);
 	}
-	rawDataMenu.innerHTML = raw.join('\n');
 }
 
 function isValidUrl(string) {
@@ -423,6 +459,7 @@ function playSong(id) {
 		}
 	}
 	window.playerAudio.pause();
+	window.playerAudio.currentTime = 0;
 	window.playerAudio.src = src;
 	window.playerAudio.play().catch(() => { if (window.playerHide) window.playerHide(); });
 }
