@@ -84,6 +84,7 @@ window.addEventListener('beforeunload', () => {
 	if (!window.playerAudio) return;
 
 	sessionStorage.setItem('player-playing', !window.playerAudio.paused);
+	localStorage.setItem('player-volume', window.playerAudio.volume);
 
 	const saved = localStorage.getItem('player');
 	if (!saved) return;
@@ -92,7 +93,6 @@ window.addEventListener('beforeunload', () => {
 	if (!state) return;
 
 	state.time = window.playerAudio.currentTime || 0;
-	state.volume = window.playerAudio.volume || 1;
 	state.loop = window.playerAudio.loop || false;
 
 
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		volume.onclick = () => { volume.classList.toggle('pressed'); };
 		document.addEventListener('click', (event) => { if (!volume.parentElement.contains(event.target) ) volume.classList.remove('pressed'); });
 
-		updateVolume(data?.volume * 100 ?? 100);
+		updateVolume(data?.volume * 100);
 		volumeBar.oninput = () => { updateVolume(); };
 
 		if (isMusic) loop.onpointerdown = () => { if ( window.playerAudio) window.playerAudio.loop = loop.classList.toggle('pressed'); };
@@ -272,6 +272,7 @@ function songChanged(update = true) {
 	if (!saved) return;
 	data = JSON.parse(saved);
 	data.playing = sessionStorage.getItem('player-playing') === 'true';
+	data.volume = Number(localStorage.getItem('player-volume') || '0.5');
 
 	if (update) {
 		updatePlayer();
