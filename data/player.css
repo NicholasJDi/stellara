@@ -129,7 +129,7 @@
 
 .player-volume-box {
 	position: absolute;
-	align-content: center;
+	align-items: center;
 	align-self: center;
 	background-color: rgb(55, 55, 55);
 	border: 0.1em solid rgb(70, 70, 70);
