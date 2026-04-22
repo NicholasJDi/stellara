@@ -126,8 +126,6 @@ if (rawData && searchScheme && sortScheme && songList) {
 			const id = songItem.id;
 
 			handleDropdownClick(id, dropdownBox);
-
-			event.stopPropagation();
 		});
 
 		songList.addEventListener('click', (event) => {
@@ -144,7 +142,7 @@ if (rawData && searchScheme && sortScheme && songList) {
 		document.addEventListener('click', (event) => {
 			if (!dropdown.classList.contains('open')) return;
 
-			if (!dropdown.contains(event.target)) {
+			if (!dropdown.parentElement.contains(event.target)) {
 				hideDropdown(dropdown.parentElement);
 			}
 		});
@@ -425,12 +423,14 @@ function playSong(id) {
 		}
 	}
 	window.playerAudio.pause();
-	window.playerAudio.currentTime = 0;
 	window.playerAudio.src = src;
 	window.playerAudio.play().catch(() => { if (window.playerHide) window.playerHide(); });
 }
 
 function nextSong(currentId) {
+	console.log(currentId)
+	if (!currentId) return;
+
 	const items = [...visibleSongListItems].filter(el =>
 		el.classList?.contains('song-list-item')
 	);
@@ -448,6 +448,9 @@ function nextSong(currentId) {
 }
 
 function previousSong(currentId) {
+	console.log(currentId)
+	if (!currentId) return;
+
 	const items = [...visibleSongListItems].filter(el =>
 		el.classList?.contains('song-list-item')
 	);

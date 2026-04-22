@@ -41,8 +41,8 @@ a:active {
 }
 
 .sidebar {
-	background-color: rgb(50, 50, 50);
 	font-size: calc(var(--sidebar-size) / 12);
+	background-color: rgb(50, 50, 50);
 	border-right: 0.1em solid rgb(100, 100, 100);
 	padding: 0.5em;
 	padding-top: 1em;
