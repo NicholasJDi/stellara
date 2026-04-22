@@ -19,6 +19,9 @@ async function fetchJsonData(url, backup = {}) {
 		return backup;
 	}
 }
+const searchParams = new URLSearchParams(window.location.search);
+const dataParam = searchParams.get('data');
+const dataOverride = isValidUrl(dataParam) ? dataParam.endsWith('.json') ? dataParam : '' : '';
 
 const songListItems = new Map();
 const visibleSongListItems = new Set();
@@ -41,7 +44,7 @@ const trackInfoButton = trackInfoMenu.querySelector('.track-info-menu-button');
 
 const infoMenu = trackInfoMenu.querySelector('.info-menu');
 
-const rawData = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/data.json", null);
+const rawData = await fetchJsonData(dataOverride ?? "https://nicholasjdi.github.io/stellara/data/music/data.json", null);
 const searchScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/search.json", null);
 const sortScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/sort.json", null);
 const songList = document.querySelector('.song-list');
