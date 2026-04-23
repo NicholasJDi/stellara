@@ -44,7 +44,7 @@ const trackInfoButton = trackInfoMenu.querySelector('.track-info-menu-button');
 
 const infoMenu = trackInfoMenu.querySelector('.info-menu');
 
-const rawData = await fetchJsonData(dataOverride ?? "https://nicholasjdi.github.io/stellara/data/music/data.json", null);
+const rawData = await fetchJsonData(dataOverride || "https://nicholasjdi.github.io/stellara/data/music/data.json", null);
 const searchScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/search.json", null);
 const sortScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/sort.json", null);
 const songList = document.querySelector('.song-list');
@@ -226,7 +226,7 @@ if (rawData && searchScheme && sortScheme && songList) {
 
 function getDateString(date) {
 	if (!date) return;
-	const nums = date.split('-');
+	const nums = date.split(/[OT]/)[0].split('-');
 	if (nums.length != 3) return;
 	const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	const index = Number(nums[1]) - 1;
