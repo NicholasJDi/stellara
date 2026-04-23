@@ -44,7 +44,7 @@ const trackInfoButton = trackInfoMenu.querySelector('.track-info-menu-button');
 
 const infoMenu = trackInfoMenu.querySelector('.info-menu');
 
-const rawData = await fetchJsonData(dataOverride || "https://nicholasjdi.github.io/stellara/data/music/data.json", null);
+const rawData = await fetchJsonData(dataOverride || "https://nicholasjdi.github.io/stellara/data/music/data.json", []);
 const searchScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/search.json", null);
 const sortScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/sort.json", null);
 const songList = document.querySelector('.song-list');
