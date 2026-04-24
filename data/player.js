@@ -24,6 +24,7 @@ function playerStop() {
 		localStorage.removeItem('player');
 		sessionStorage.removeItem('player-playing');
 		updateState(true, true);
+		window.playerAudio.remove();
 		window.playerAudio = null;
 		data = null;
 	}
@@ -65,7 +66,8 @@ function prepareAudio(song) {
 
 	let lastSecond = -1;
 	audio.ontimeupdate = () => {
-		const current = Math.floor(window.playerAudio.currentTime);
+		if (!window.playerAudio) return;
+		const current = Math.floor(window.playerAudio?.currentTime);
 		if (current !== lastSecond) {
 			lastSecond = current;
 			if (loaded) updateState();
