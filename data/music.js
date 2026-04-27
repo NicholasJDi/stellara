@@ -226,7 +226,7 @@ if (rawData && searchScheme && sortScheme && songList) {
 
 function getDateString(date) {
 	if (!date) return;
-	const nums = date.split(/[OT]/)[0].split('-');
+	const nums = date.split('T')[0].split('-');
 	if (nums.length != 3) return;
 	const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	const index = Number(nums[1]) - 1;
