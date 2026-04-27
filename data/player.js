@@ -20,6 +20,7 @@ try {
 
 function playerStop() {
 	if (window.playerHide) {
+		window.playerAudio.pause();
 		window.playerHide();
 		localStorage.removeItem('player');
 		sessionStorage.removeItem('player-playing');

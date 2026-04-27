@@ -1,0 +1,142 @@
+:root{
+	/* root variables */
+	--sidebar-size: 20vw;   /* the width of the sidebar */
+	--topbar-size: 3rem;    /* space above the sidebar */
+	--bottombar-size: 0;    /* space below the sidebar */
+}
+
+.topbar {
+	position: fixed;
+	box-sizing: border-box;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: var(--topbar-size);
+	z-index: 999;
+}
+
+.bottombar {
+	position: fixed;
+	box-sizing: border-box;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: var(--bottombar-size);
+	z-index: 999;
+}
+
+.sidebar {
+	position: fixed;
+	box-sizing: border-box;
+	top: var(--topbar-size);
+	bottom: var(--bottombar-size);
+	left: 0;
+	width: var(--sidebar-size);
+	z-index: 999;
+}
+
+.sidebar.swap {
+	left: unset !important;
+	right: 0;
+}
+
+.sidebar:not(.swap) { right: unset !important; }
+
+.sidebar.open { animation: slide-in 0.3s forwards; }
+
+.sidebar:not(.open) { animation: slide-out 0.3s forwards; }
+
+.sidebar.no-anim { animation-duration: 0s !important; }
+
+.content {
+	position: fixed;
+	box-sizing: border-box;
+	top: var(--topbar-size);
+	left: var(--sidebar-size);
+	right: 0;
+	bottom: var(--bottombar-size);
+}
+
+.sidebar.swap ~ .content {
+	left: 0 !important;
+	right: var(--sidebar-size);
+}
+
+.sidebar:not(.swap) ~ .content { right: 0 !important; }
+
+.sidebar.open ~ .content { animation: size-in 0.3s forwards; }
+
+.sidebar:not(.open) ~ .content { animation: size-out 0.3s forwards; }
+
+.sidebar.no-anim ~ .content { animation-duration: 0s !important; }
+
+@keyframes slide-in {
+	from {
+		left: calc(var(--sidebar-size) * -1);
+		right: calc(var(--sidebar-size) * -1);
+	}
+	to {
+		left: 0;
+		right: 0;
+	}
+}
+
+@keyframes slide-out {
+	from {
+		left: 0;
+		right: 0;
+	}
+	to {
+		left: calc(var(--sidebar-size) * -1);
+		right: calc(var(--sidebar-size) * -1);
+	}
+}
+
+@keyframes size-in {
+	from {
+		left: 0;
+		right: 0;
+	}
+	to {
+		left: calc(var(--sidebar-size));
+		right: calc(var(--sidebar-size));
+	}
+}
+
+@keyframes size-out {
+	from {
+		left: calc(var(--sidebar-size));
+		right: calc(var(--sidebar-size));
+	}
+	to {
+		left: 0;
+		right: 0;
+	}
+}
+
+@media (max-width:900px) { /* if you change this make sure to update the sidebar.js too */
+	:root{
+		--sidebar-size: 30vw;
+	}
+}
+
+@media (max-width:600px) {
+	:root{
+		--sidebar-size: 100vw;
+	}
+	.sidebar { border: none !important; }
+	.content {
+		left: 0 !important;
+		right: 0 !important;
+		animation: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sidebar {
+		animation-duration: 0s !important;
+	}
+	.content {
+		animation-duration: 0s !important;
+	}
+}
