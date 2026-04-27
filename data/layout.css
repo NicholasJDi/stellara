@@ -1,8 +1,9 @@
-:root{
+:root {
 	/* root variables */
 	--sidebar-size: 20vw;   /* the width of the sidebar */
 	--topbar-size: 3rem;    /* space above the sidebar */
 	--bottombar-size: 0;    /* space below the sidebar */
+	--sidebar-time: 0.3s;   /* how long it takes the sidebar to move into position */
 }
 
 .topbar {
@@ -30,21 +31,15 @@
 	box-sizing: border-box;
 	top: var(--topbar-size);
 	bottom: var(--bottombar-size);
-	left: 0;
 	width: var(--sidebar-size);
 	z-index: 999;
 }
 
-.sidebar.swap {
-	left: unset !important;
-	right: 0;
-}
+.sidebar.open { animation: sidebar-in var(--sidebar-time) forwards; }
+.sidebar:not(.open) { animation: sidebar-out var(--sidebar-time) forwards; }
 
 .sidebar:not(.swap) { right: unset !important; }
-
-.sidebar.open { animation: slide-in 0.3s forwards; }
-
-.sidebar:not(.open) { animation: slide-out 0.3s forwards; }
+.sidebar.swap { left: unset !important; }
 
 .sidebar.no-anim { animation-duration: 0s !important; }
 
@@ -52,25 +47,20 @@
 	position: fixed;
 	box-sizing: border-box;
 	top: var(--topbar-size);
-	left: var(--sidebar-size);
+	left: 0;
 	right: 0;
 	bottom: var(--bottombar-size);
 }
 
-.sidebar.swap ~ .content {
-	left: 0 !important;
-	right: var(--sidebar-size);
-}
+.sidebar.open ~ .content { animation: content-in var(--sidebar-time) forwards; }
+.sidebar:not(.open) ~ .content { animation: content-out var(--sidebar-time) forwards; }
 
 .sidebar:not(.swap) ~ .content { right: 0 !important; }
-
-.sidebar.open ~ .content { animation: size-in 0.3s forwards; }
-
-.sidebar:not(.open) ~ .content { animation: size-out 0.3s forwards; }
+.sidebar.swap ~ .content { left: 0 !important; }
 
 .sidebar.no-anim ~ .content { animation-duration: 0s !important; }
 
-@keyframes slide-in {
+@keyframes sidebar-in {
 	from {
 		left: calc(var(--sidebar-size) * -1);
 		right: calc(var(--sidebar-size) * -1);
@@ -81,7 +71,7 @@
 	}
 }
 
-@keyframes slide-out {
+@keyframes sidebar-out {
 	from {
 		left: 0;
 		right: 0;
@@ -92,7 +82,7 @@
 	}
 }
 
-@keyframes size-in {
+@keyframes content-in {
 	from {
 		left: 0;
 		right: 0;
@@ -103,7 +93,7 @@
 	}
 }
 
-@keyframes size-out {
+@keyframes content-out {
 	from {
 		left: calc(var(--sidebar-size));
 		right: calc(var(--sidebar-size));
@@ -126,8 +116,6 @@
 	}
 	.sidebar { border: none !important; }
 	.content {
-		left: 0 !important;
-		right: 0 !important;
 		animation: none !important;
 	}
 }
