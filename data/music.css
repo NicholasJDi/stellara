@@ -217,7 +217,7 @@
 	right: 0;
 	width: 100%;
 	padding-top: 1em;
-	z-index: 100;
+	z-index: 1;
 }
 
 .dropdown.open { display: flex; }
@@ -257,10 +257,11 @@ button.dropdown-item {
 	padding: 2em;
 	transition: background-color 0.3s ease-out;
 	pointer-events: none;
-	z-index: 1000;
+	z-index: 2;
 }
 
 .menu-box:has(.track-info-menu.visible) {
+	pointer-events: auto;
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -277,12 +278,11 @@ button.dropdown-item {
 	width: 100%;
 	max-width: calc(100cqh * 16 / 9);
 	max-height: 100cqh;
-	pointer-events: auto;
-	z-index: 1000;
 	border: 0.15em solid rgb(100, 100, 100);
 	border-radius: 0.7em;
 	flex-direction: column;
 	overflow: hidden;
+	z-index: 3;
 }
 
 .track-info-menu.full {

@@ -1,14 +1,53 @@
-export function sortDataBySearch(data, searchScheme, inputText = "", includeWeight = false) {
-	if (inputText === "") {
+export function sortDataBySearchTags(data, searchScheme, inputText = "", includeWeight = false) {
+	const tags = {};
+
+	const regex = /(?:"([^"]+)"|([^\s:]+)):(?:"([^"]+)"|([^\s]+))/g;
+	const matches = [...inputText.matchAll(regex)];
+
+	for (const match of matches) {
+		const key = match[1] || match[2];
+		const value = match[3] || match[4];
+
+		if (!(key in tags)) {
+			tags[key] = [];
+		}
+
+		tags[key].push(value);
+	}
+
+	let cleanedText = inputText;
+
+	for (let i = matches.length - 1; i >= 0; i--) {
+		const match = matches[i];
+
+		cleanedText =
+			cleanedText.slice(0, match.index) +
+			cleanedText.slice(match.index + match[0].length);
+	}
+	cleanedText = cleanedText.trim().replace(/\s+/g, " ");
+
+	return sortDataBySearch(data, searchScheme, cleanedText, tags, includeWeight);
+}
+
+export function sortDataBySearch(data, searchScheme, inputText = "", inputTags = {}, includeWeight = false) {
+	if (inputText === "" && Object.keys(inputTags).length === 0) {
 		return data;
 	} else {
-		data.reverse();
+		data = [...data].reverse();
 
 		const outData = [];
 		const index = new Array(data.length).fill(0);
-		const inputTokens = inputText.toLowerCase().split(" ").filter(Boolean);
+		const tokens = inputText.toLowerCase().split(/\s+/).filter(Boolean);
 
 		for (const key of Object.keys(searchScheme)) {
+			const inputTokens =  [...tokens];
+			for (const tag of (inputTags[key] || [])) {
+				if (typeof tag === Array) {
+					inputTokens.push(...tag);
+				} else {
+					inputTokens.push(...tag.toLowerCase().split(/\s+/).filter(Boolean));
+				}
+			}
 			const searchItem = searchScheme[key];
 
 			for (let i = 0; i < data.length; i++) {
@@ -21,7 +60,7 @@ export function sortDataBySearch(data, searchScheme, inputText = "", includeWeig
 						value = value.join(" ");
 					}
 
-					value = value.toLowerCase().split(" ").filter(Boolean);
+					value = value.toLowerCase().split(/\s+/).filter(Boolean);
 
 					let success = false;
 					const weight = Number(searchItem.weight ?? 1);
@@ -36,7 +75,16 @@ export function sortDataBySearch(data, searchScheme, inputText = "", includeWeig
 									if (searchToken.includes(token)) {
 										success = true;
 										totalWeight += tokenWeight;
-										totalWeight += positionWeight * (inputTokens.length - inputTokens.indexOf(token));
+										if (tokens.includes(token)){
+											totalWeight += positionWeight * (tokens.length - tokens.indexOf(token));
+										}
+									} else if (token.includes(searchToken)) {
+										success = true;
+										const ratio = searchToken.length / token.length;
+										totalWeight += tokenWeight * ratio;
+										if (tokens.includes(token)){
+											totalWeight += (positionWeight * (tokens.length - tokens.indexOf(token))) * ratio;
+										}
 									}
 								}
 							}
@@ -47,7 +95,9 @@ export function sortDataBySearch(data, searchScheme, inputText = "", includeWeig
 								if (value.includes(token)) {
 									success = true;
 									totalWeight += tokenWeight;
-									totalWeight += positionWeight * (inputTokens.length - inputTokens.indexOf(token));
+									if (tokens.includes(token)){
+										totalWeight += positionWeight * (tokens.length - tokens.indexOf(token));
+									}
 								}
 							}
 							break;
@@ -64,7 +114,9 @@ export function sortDataBySearch(data, searchScheme, inputText = "", includeWeig
 										if (start <= searchToken && searchToken <= end) {
 											success = true;
 											totalWeight += tokenWeight;
-											totalWeight += positionWeight * (inputTokens.length - inputTokens.indexOf(token));
+											if (tokens.includes(token)){
+												totalWeight += positionWeight * (tokens.length - tokens.indexOf(token));
+											}
 										}
 									}
 								}

@@ -13,7 +13,6 @@
 	left: 0;
 	right: 0;
 	height: var(--topbar-size);
-	z-index: 999;
 }
 
 .bottombar {
@@ -23,7 +22,6 @@
 	left: 0;
 	right: 0;
 	height: var(--bottombar-size);
-	z-index: 999;
 }
 
 .sidebar {
@@ -32,7 +30,6 @@
 	top: var(--topbar-size);
 	bottom: var(--bottombar-size);
 	width: var(--sidebar-size);
-	z-index: 999;
 }
 
 .sidebar.open { animation: sidebar-in var(--sidebar-time) forwards; }
@@ -62,10 +59,12 @@
 
 @keyframes sidebar-in {
 	from {
+		visibility: hidden;
 		left: calc(var(--sidebar-size) * -1);
 		right: calc(var(--sidebar-size) * -1);
 	}
 	to {
+		visibility: visible;
 		left: 0;
 		right: 0;
 	}
@@ -73,10 +72,12 @@
 
 @keyframes sidebar-out {
 	from {
+		visibility: visible;
 		left: 0;
 		right: 0;
 	}
 	to {
+		visibility: hidden;
 		left: calc(var(--sidebar-size) * -1);
 		right: calc(var(--sidebar-size) * -1);
 	}

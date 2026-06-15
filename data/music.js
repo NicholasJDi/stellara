@@ -1,4 +1,4 @@
-import { sortDataBySchemeMode, sortDataBySearch } from "./search-sort.js";
+import { sortDataBySchemeMode, sortDataBySearchTags } from "./search-sort.js";
 
 export default searchSort;
 
@@ -35,7 +35,8 @@ const dropdownDownloadLibrary = dropdown.querySelector('#download-library');
 const dropdownDownloadArt = dropdown.querySelector('#download-art-high-res');
 const dropdownOpenMenu = dropdown.querySelector('#open-menu');
 
-const trackInfoMenu = document.querySelector('.track-info-menu');
+const menuBox = document.querySelector('.menu-box ');
+const trackInfoMenu = menuBox.querySelector('.track-info-menu');
 const rawDataMenu = trackInfoMenu.querySelector('.raw-data-menu');
 const menuCloseButton = trackInfoMenu.querySelector('.close-info-menu-button');
 const menuSizeButton = trackInfoMenu.querySelector('.size-info-menu-button');
@@ -236,7 +237,7 @@ function getDateString(date) {
 function searchSort(query, sort, reverse) {
 	if (loadFailed) return;
 	const sorted = sortDataBySchemeMode(rawData, sortScheme, sort);
-	const data = sortDataBySearch(sorted, searchScheme, query);
+	const data = sortDataBySearchTags(sorted, searchScheme, query);
 	const ids = data.map(item => item.id).filter(Boolean);
 	if (reverse) ids.reverse();
 	musicListUpdate(ids);
