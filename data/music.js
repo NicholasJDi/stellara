@@ -178,6 +178,15 @@ if (rawData && searchScheme && sortScheme && songList) {
 			};
 		}
 
+		if (menuBox) {
+			menuBox.onclick = (event) => {
+				if (!trackInfoMenu) return;
+				if (!trackInfoMenu.contains(event.target)) {
+					hideTrackInfoMenu();
+				}
+			};
+		}
+
 		if (menuCloseButton) {
 			menuCloseButton.onclick = () => {
 				hideTrackInfoMenu();

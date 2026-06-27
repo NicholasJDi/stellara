@@ -148,9 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		
 		updateState = (sync = false, clear = false) => {
 			// Playing Update
-			playPause.classList.toggle('pressed', !window.playerAudio.paused);
+			playPause.classList.toggle('pressed', !window.playerAudio?.paused || false);
 			// Time Update
-			const timeRaw = window.playerAudio.currentTime;
+			const timeRaw = window.playerAudio?.currentTime || 0;
 			const timeSeconds = Math.floor(timeRaw);
 			const timeMinutes = Math.floor(timeRaw / 60);
 			const timeHours = Math.floor(timeRaw / 3600);
