@@ -42,7 +42,7 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 		for (const key of Object.keys(searchScheme)) {
 			const inputTokens =  [...tokens];
 			for (const tag of (inputTags[key] || [])) {
-				if (typeof tag === Array) {
+				if (Array.isArray(tag)) {
 					inputTokens.push(...tag);
 				} else {
 					inputTokens.push(...tag.toLowerCase().split(/\s+/).filter(Boolean));

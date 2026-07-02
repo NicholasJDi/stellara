@@ -115,7 +115,10 @@
 	:root{
 		--sidebar-size: 100vw;
 	}
-	.sidebar { border: none !important; }
+	.sidebar {
+		border: none !important;
+		z-index: 999;
+	}
 	.content {
 		animation: none !important;
 	}
