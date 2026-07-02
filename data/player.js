@@ -54,6 +54,8 @@ function prepareAudio(song) {
 		}
 		if (!isMusic) {
 			audio.loop = true;
+		} else {
+			audio.loop = data?.loop || false;
 		}
 		if (loaded) {
 			updatePlayer();
@@ -79,7 +81,7 @@ function prepareAudio(song) {
 	audio.onpause = () => { if (loaded) updateState(true); }
 	audio.onseeked = () => { if (loaded) updateState(true); }
 
-	window.playerAudio = audio
+	window.playerAudio = audio;
 }
 window.playerPrepare = prepareAudio;
 
@@ -96,7 +98,7 @@ window.addEventListener('beforeunload', () => {
 	if (!state) return;
 
 	state.time = window.playerAudio.currentTime || 0;
-	state.loop = window.playerAudio.loop || false;
+	if (isMusic) state.loop = window.playerAudio.loop || false;
 
 
 	localStorage.setItem('player', JSON.stringify(state));
@@ -132,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		let lengthHours = 0;
 		updatePlayer = () => {
 			// UI Update
-			art.parentElement.classList.toggle('hidden', !data?.art)
+			art.parentElement.classList.toggle('hidden', !data?.art);
 			art.src = data?.art;
 			title.textContent = data?.title ?? 'Unknown';
 			artist.textContent = `by ${data?.artist ?? 'Unkown'}`;
@@ -183,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						title: data?.title ?? '',
 						artist: data?.artist ?? '',
 						artwork: data?.art ? [{ src: data.art }] : []
-					})
+					});
 				
 					navigator.mediaSession.playbackState = window.playerAudio.paused ? 'paused' : 'playing';
 				} else {
