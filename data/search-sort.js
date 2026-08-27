@@ -66,6 +66,7 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 					const weight = Number(searchItem.weight ?? 1);
 					const tokenWeight = Number(searchItem.token_weight ?? 0);
 					const positionWeight = Number(searchItem.position_weight ?? 0);
+					const reversedWeightMultiplier = Number(searchItem.reversed_weight_multiplier ?? 0.5);
 					let totalWeight = 0;
 
 					switch (searchItem.type) {
@@ -79,11 +80,11 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 											totalWeight += positionWeight * (tokens.length - tokens.indexOf(token));
 										}
 									} else if (token.includes(searchToken)) {
-										success = true;
+										success = null;
 										const ratio = searchToken.length / token.length;
-										totalWeight += tokenWeight * ratio;
+										totalWeight += tokenWeight * reversedWeightMultiplier * ratio;
 										if (tokens.includes(token)){
-											totalWeight += (positionWeight * (tokens.length - tokens.indexOf(token))) * ratio;
+											totalWeight += (positionWeight * (tokens.length - tokens.indexOf(token))) * reversedWeightMultiplier * ratio;
 										}
 									}
 								}
@@ -124,8 +125,10 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 							break;
 					}
 
-					if (success) {
+					if (success === true) {
 						totalWeight += weight;
+					} else if (success === null) {
+						totalWeight += weight * reversedWeightMultiplier;
 					}
 
 					index[i] += totalWeight;

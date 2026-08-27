@@ -93,10 +93,10 @@ a:active {
 	text-decoration: none;
 }
 .page-link:link {
-	color: white
+	color: white;
 }
 .page-link:visited {
-	color: white
+	color: white;
 }
 .page-link:hover {
 	color: lightblue;
