@@ -50,7 +50,7 @@ a:active {
 	scrollbar-gutter: stable both-edges;
 }
 
-.content{
+.content {
 	font-family: 'Jersey 25', Verdana, serif;
 	container-type: size;
 }
@@ -118,4 +118,9 @@ a:active {
 .center-box {
 	display: flex;
 	justify-content: center;
+}
+
+.wrap-text {
+	text-wrap: balance;
+	hyphens: auto;
 }
