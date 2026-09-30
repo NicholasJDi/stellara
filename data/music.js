@@ -395,6 +395,7 @@ function setTrackInfoMenuContent(id) {
 	// prepare
 	const song = data.get(id);
 	const background = song.art_full;
+	const links = song.get("links")
 
 	// set
 	if (background) {

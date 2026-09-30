@@ -7,7 +7,8 @@
 		"type":"album",
 		"date":"2027-08-16",
 		"file":"https://nicholasjdi.github.io/stellara/data/music/songs/Stellara%20-%20Rain%20of%20Past%20Times.mp3",
-		"art":"https://nicholasjdi.github.io/stellara/data/music/art/Walking%20Through%20The%20Past.png"
+		"art":"https://nicholasjdi.github.io/stellara/data/music/art/Walking%20Through%20The%20Past.png",
+		"links":{"thing":"https://example.com"}
 	},
 	{
 		"id":"single_title",
