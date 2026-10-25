@@ -45,9 +45,9 @@ const trackInfoButton = trackInfoMenu.querySelector('.track-info-menu-button');
 
 const infoMenu = trackInfoMenu.querySelector('.info-menu');
 
-const rawData = await fetchJsonData(dataOverride || "https://nicholasjdi.github.io/stellara/data/music/data.json", []);
-const searchScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/search.json", null);
-const sortScheme = await fetchJsonData("https://nicholasjdi.github.io/stellara/data/music/sort.json", null);
+const rawData = await fetchJsonData(dataOverride || "https://stellara.nicholasjdi.dev/data/music/data.json", []);
+const searchScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/search.json", null);
+const sortScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/sort.json", null);
 const songList = document.querySelector('.song-list');
 if (rawData && searchScheme && sortScheme && songList) {
 	try {
@@ -395,7 +395,7 @@ function setTrackInfoMenuContent(id) {
 	// prepare
 	const song = data.get(id);
 	const background = song.art_full;
-	const links = song.get("links")
+	const links = song.get("links");
 
 	// set
 	if (background) {
@@ -426,6 +426,8 @@ function setRawDataMenuContent(id) {
 			link.target = '_blank';
 			link.textContent = value;
 			text.appendChild(link);
+		} else if (typeof value === "object") {
+			text.textContent = JSON.stringify(value)
 		} else {
 			text.textContent = value;
 		}
