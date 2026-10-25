@@ -395,7 +395,7 @@ function setTrackInfoMenuContent(id) {
 	// prepare
 	const song = data.get(id);
 	const background = song.art_full;
-	const links = song.get("links");
+	const links = song.links;
 
 	// set
 	if (background) {
@@ -481,7 +481,6 @@ function playSong(id) {
 }
 
 function nextSong(currentId) {
-	console.log(currentId)
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>
@@ -501,7 +500,6 @@ function nextSong(currentId) {
 }
 
 function previousSong(currentId) {
-	console.log(currentId)
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>
