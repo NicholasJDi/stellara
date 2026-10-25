@@ -79,7 +79,6 @@ function prepareAudio(song) {
 
 	audio.onplay = () => { if (loaded) updateState(true); }
 	audio.onpause = () => { if (loaded) updateState(true); }
-	audio.onseeked = () => { if (loaded) updateState(true); }
 
 	window.playerAudio = audio;
 }
