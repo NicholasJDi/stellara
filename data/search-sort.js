@@ -272,8 +272,15 @@ export function sortData(data, sortMode) {
 			}
 		}
 
+		if (rule.reverse_groups) {
+			newGroups.reverse();
+		}
+
 		if (rule.reverse_after) {
 			newGroups.reverse();
+			for (const group of newGroups) {
+				group.reverse();
+			}
 		}
 
 		groups = newGroups;
