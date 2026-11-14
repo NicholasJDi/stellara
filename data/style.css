@@ -9,9 +9,10 @@
 
 body {
 	color: white;
+	accent-color: lightseagreen;
 	background-color: rgb(40, 40, 40);
-	font-family: Verdana, serif;
 	scrollbar-color: rgb(70, 70, 70) rgb(50, 50, 50);
+	font-family: Verdana, serif;
 	margin: 0;
 	padding: 0;
 }

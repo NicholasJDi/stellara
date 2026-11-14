@@ -18,6 +18,9 @@
 		"album":{
 			"type":"group",
 			"reverse_after":true
+		},
+		"track":{
+			"type":"sort"
 		}
 	},
 	"album_reversed":{
@@ -26,6 +29,10 @@
 		},
 		"album":{
 			"type":"group"
+		},
+		"track":{
+			"type":"sort",
+			"reverse":true
 		}
 	},
 	"date":{

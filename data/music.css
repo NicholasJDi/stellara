@@ -9,6 +9,11 @@
 	user-select: none;
 }
 
+.searchbar:focus {
+  outline: none;
+  border-color: lightseagreen;
+}
+
 .song-list {
 	display: flex;
 	flex-direction: column;
@@ -165,7 +170,7 @@
 	flex-direction: row;
 	align-items: center;
 	color: white;
-	background-color: darkcyan;
+	background-color: lightseagreen;
 	font-family: 'Jersey 25', Verdana, serif;
 	font-size: 1.1em;
 	border: none;
@@ -185,7 +190,7 @@
 
 .dropdown-button {
 	color: white;
-	background-color: darkcyan;
+	background-color: lightseagreen;
 	border: none;
 	border-left: 1px solid rgba(255, 255, 255, 0.13);
 	border-radius: 0 9999px 9999px 0;

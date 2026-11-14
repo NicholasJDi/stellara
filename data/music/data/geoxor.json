@@ -4,16 +4,16 @@
 		"title":"Higher",
 		"artists":["Geoxor"],
 		"type":"single",
-		"date":"2016-03-26",
+		"date":"2016-03-25",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Higher.mp3",
 		"art":"https://beta.geoxor.moe/covers/higher.png"
 	},
 	{
-		"id":"you_&_i",
+		"id":"you-and-i",
 		"title":"You & I",
 		"artists":["Geoxor"],
 		"type":"single",
-		"date":"2016-11-06",
+		"date":"2016-11-05",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20You%20&%20I.mp3",
 		"art":"https://beta.geoxor.moe/covers/you_&_i.png"
 	},
@@ -22,12 +22,12 @@
 		"title":"Ascend",
 		"artists":["Geoxor"],
 		"type":"single",
-		"date":"2016-12-06",
+		"date":"2016-12-05",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Ascend.mp3",
 		"art":"https://beta.geoxor.moe/covers/dsv.png"
 	},
 	{
-		"id":"gotta_lay",
+		"id":"gotta-lay",
 		"title":"Gotta Lay",
 		"artists":["Geoxor"],
 		"type":"single",
@@ -36,33 +36,14 @@
 		"art":"https://beta.geoxor.moe/covers/gotta_lay.png"
 	},
 	{
-		"id":"abandoned",
-		"title":"Abandoned",
+		"id":"woosh",
+		"title":"Woosh",
 		"album":"Irreversible",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-02-09T1",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Abandoned.mp3",
-		"art":"https://beta.geoxor.moe/covers/irreversible.png"
-	},
-	{
-		"id":"gloom",
-		"title":"Gloom",
-		"album":"Irreversible",
-		"artists":["Geoxor"],
-		"type":"ep",
-		"date":"2017-02-09T2",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Gloom.mp3",
-		"art":"https://beta.geoxor.moe/covers/irreversible.png"
-	},
-	{
-		"id":"move",
-		"title":"Move",
-		"album":"Irreversible",
-		"artists":["Geoxor"],
-		"type":"ep",
-		"date":"2017-02-09T3",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Move.mp3",
+		"date":"2017-02-09",
+		"track":3,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Woosh.mp3",
 		"art":"https://beta.geoxor.moe/covers/irreversible.png"
 	},
 	{
@@ -71,39 +52,43 @@
 		"album":"Irreversible",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-02-09T4",
+		"date":"2016-07-30",
+		"track":2,
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Poi.mp3",
 		"art":"https://beta.geoxor.moe/covers/irreversible.png"
 	},
 	{
-		"id":"woosh",
-		"title":"Woosh",
+		"id":"move",
+		"title":"Move",
 		"album":"Irreversible",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-02-09T5",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Woosh.mp3",
+		"date":"2016-06-28",
+		"track":1,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Move.mp3",
 		"art":"https://beta.geoxor.moe/covers/irreversible.png"
 	},
 	{
-		"id":"funky_world",
-		"title":"Funky World",
-		"album":"Funky World",
+		"id":"gloom",
+		"title":"Gloom",
+		"album":"Irreversible",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-02-09T1",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Funky%20World.mp3",
-		"art":"https://beta.geoxor.moe/covers/funky_world.png"
+		"date":"2018-11-16",
+		"track":5,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Gloom.mp3",
+		"art":"https://beta.geoxor.moe/covers/irreversible.png"
 	},
 	{
-		"id":"make_me_strong",
-		"title":"Make Me Strong",
-		"album":"Funky World",
+		"id":"abandoned",
+		"title":"Abandoned",
+		"album":"Irreversible",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-02-09T2",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Make%20Me%20Strong.mp3",
-		"art":"https://beta.geoxor.moe/covers/funky_world.png"
+		"date":"2017-02-09",
+		"track":4,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Abandoned.mp3",
+		"art":"https://beta.geoxor.moe/covers/irreversible.png"
 	},
 	{
 		"id":"timeless",
@@ -111,12 +96,35 @@
 		"album":"Funky World",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2017-07-13T3",
+		"date":"2017-07-13",
+		"track":3,
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Timeless.mp3",
 		"art":"https://beta.geoxor.moe/covers/funky_world.png"
 	},
 	{
-		"id":"turn_around",
+		"id":"make-me-strong",
+		"title":"Make Me Strong",
+		"album":"Funky World",
+		"artists":["Geoxor"],
+		"type":"ep",
+		"date":"2017-07-13",
+		"track":1,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Make%20Me%20Strong.mp3",
+		"art":"https://beta.geoxor.moe/covers/funky_world.png"
+	},
+	{
+		"id":"funky-world",
+		"title":"Funky World",
+		"album":"Funky World",
+		"artists":["Geoxor"],
+		"type":"ep",
+		"date":"2017-07-13",
+		"track":2,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Funky%20World.mp3",
+		"art":"https://beta.geoxor.moe/covers/funky_world.png"
+	},
+	{
+		"id":"turn-around",
 		"title":"Turn Around",
 		"artists":["Geoxor"],
 		"type":"single",
@@ -125,16 +133,16 @@
 		"art":"https://beta.geoxor.moe/covers/turn_around.png"
 	},
 	{
-		"id":"let_you_go",
+		"id":"let-you-go",
 		"title":"Let You Go",
 		"artists":["Geoxor","Dritic"],
-		"type":"single",
+		"type":"remix",
 		"date":"2017-10-17",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20&%20Dritic%20-%20Let%20You%20Go.mp3",
 		"art":"https://beta.geoxor.moe/covers/sugar_rush_remix.png"
 	},
 	{
-		"id":"good_computers",
+		"id":"good-computers",
 		"title":"Good Computers",
 		"artists":["Geoxor"],
 		"type":"single",
@@ -143,23 +151,25 @@
 		"art":"https://beta.geoxor.moe/covers/good_computers.png"
 	},
 	{
-		"id":"long_times",
-		"title":"Long Times",
-		"album":"Time of Waste",
-		"artists":["Geoxor"],
-		"type":"ep",
-		"date":"2018-07-10T1",
-		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Long%20Times.mp3",
-		"art":"https://beta.geoxor.moe/covers/time_of_waste.png"
-	},
-	{
 		"id":"low",
 		"title":"Low",
 		"album":"Time of Waste",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2018-07-10T2",
+		"date":"2018-07-23",
+		"track":3,
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Low.mp3",
+		"art":"https://beta.geoxor.moe/covers/time_of_waste.png"
+	},
+	{
+		"id":"long-times",
+		"title":"Long Times",
+		"album":"Time of Waste",
+		"artists":["Geoxor"],
+		"type":"ep",
+		"date":"2018-07-11",
+		"track":1,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Long%20Times.mp3",
 		"art":"https://beta.geoxor.moe/covers/time_of_waste.png"
 	},
 	{
@@ -168,7 +178,8 @@
 		"album":"Time of Waste",
 		"artists":["Geoxor"],
 		"type":"ep",
-		"date":"2018-07-10T3",
+		"date":"2018-07-17",
+		"track":2,
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Hate.mp3",
 		"art":"https://beta.geoxor.moe/covers/time_of_waste.png"
 	},
@@ -177,28 +188,126 @@
 		"title":"Moonlight",
 		"artists":["Geoxor"],
 		"type":"single",
-		"date":"2019-03-10",
+		"date":"2019-03-02",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Moonlight.mp3",
 		"art":"https://beta.geoxor.moe/covers/moonlight.png"
 	},
 	{
-		"id":"the_beginning",
+		"id":"the-beginning",
 		"title":"The Beginning",
-		"album":"The Beginning",
 		"artists":["Geoxor","Canonblade"],
 		"contributors":["Raddix"],
-		"type":"album",
-		"date":"2019-06-25",
+		"type":"single",
+		"date":"2019-06-24",
 		"file":"https://beta.geoxor.moe/audio/Geoxor%20&%20Canonblade%20feat.%20Raddix%20-%20The%20Beginning.mp3",
 		"art":"https://beta.geoxor.moe/covers/the_beginning.jpg"
 	},
 	{
-		"id":"lucid_dream",
+		"id":"lucid-dream",
 		"title":"Lucid Dream",
 		"artists":["Geoxor","Panda Eyes"],
 		"type":"single",
 		"date":"2019-10-11",
 		"file":"https://beta.geoxor.moe/audio/Panda%20Eyes%20&%20Geoxor%20-%20Lucid%20Dream.mp3",
 		"art":"https://beta.geoxor.moe/covers/lucid_dream.png"
+	},
+	{
+		"id":"cheese",
+		"title":"Cheese",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":8,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Cheese.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"euphoria",
+		"title":"Euphoria",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":5,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Euphoria.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"lollipop",
+		"title":"Lollipop",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":9,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Lollipop.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"nana",
+		"title":"Nana",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":6,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Nana.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"only-now",
+		"title":"Only Now",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":1,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Only%20Now.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"restart",
+		"title":"Restart",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":7,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Restart.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"shaii",
+		"title":"Shaii",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":4,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Shaii.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"stardust",
+		"title":"Stardust",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":2,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Stardust.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
+	},
+	{
+		"id":"take-me-home",
+		"title":"Take Me Home",
+		"album":"Stardust",
+		"artists":["Geoxor"],
+		"type":"album",
+		"date":"2019-12-01",
+		"track":3,
+		"file":"https://beta.geoxor.moe/audio/Geoxor%20-%20Take%20Me%20Home.mp3",
+		"art":"https://beta.geoxor.moe/covers/stardust.png"
 	}
 ]
