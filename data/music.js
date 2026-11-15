@@ -243,12 +243,11 @@ function getDateString(date) {
 	return `${months[index]} ${nums[2]}, ${nums[0]}`;
 }
 
-function searchSort(query, sort, reverse) {
+function searchSort(query, sort) {
 	if (loadFailed) return;
 	const sorted = sortDataBySchemeMode(rawData, sortScheme, sort);
 	const data = sortDataBySearchTags(sorted, searchScheme, query);
 	const ids = data.map(item => item.id).filter(Boolean);
-	if (reverse) ids.reverse();
 	musicListUpdate(ids);
 	if (hashHandled) return;
 	handleHash();

@@ -4,21 +4,25 @@ const searchbar = document.querySelector('.searchbar');
 
 if (searchbar) {
 	const queryParamName = 'q';
+	const sortParamName = 'sort';
+
 	const searchParams = new URLSearchParams(window.location.search);
 	const queryParam = searchParams.get(queryParamName);
+	const sortParam = searchParams.get(sortParamName);
+	
 	const search = debounce(searchSort, 300);
 
 	let searchQuery = queryParam;
-	const sortMode = "default";
-	const reverse = false;
+	let sortMode = sortParam;
 
 	if (!searchQuery) searchQuery = "";
+	if (!sortMode) sortMode = "default";
 
 	searchbar.value = searchQuery;
-	searchSort(searchQuery, sortMode, reverse);
+	searchSort(searchQuery, sortMode);
 
 	searchbar.addEventListener("input", (event) => {
-		search(event.target.value, sortMode, reverse);
+		search(event.target.value, sortMode);
 	});
 
 	searchbar.addEventListener("change", function(event) {

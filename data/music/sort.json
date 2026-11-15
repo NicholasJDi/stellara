@@ -1,11 +1,22 @@
 {
 	"default":"album",
+	"none":{
+		"unknown":{
+			"type":"sort",
+			"reverse_after":true
+		}
+	},
+	"none-reversed":{
+		"unknown":{
+			"type":"sort"
+		}
+	},
 	"title":{
 		"title":{
 			"type":"sort"
 		}
 	},
-	"title_reversed":{
+	"title-reversed":{
 		"title":{
 			"type":"sort",
 			"reverse":true
@@ -23,7 +34,7 @@
 			"type":"sort"
 		}
 	},
-	"album_reversed":{
+	"album-reversed":{
 		"date":{
 			"type":"sort",
 			"reverse":true
@@ -43,7 +54,7 @@
 			"reverse":true
 		}
 	},
-	"date_reversed":{
+	"date-reversed":{
 		"date":{
 			"type":"sort"
 		}
@@ -62,7 +73,7 @@
 			"type":"sort"
 		}
 	},
-	"type_reversed":{
+	"type-reversed":{
 		"type":{
 			"type":"order",
 			"order":[
