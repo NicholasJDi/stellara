@@ -13,11 +13,11 @@
 	},
 	"album":{
 		"date":{
-			"type":"sort"
+			"type":"sort",
+			"reverse":true
 		},
 		"album":{
-			"type":"group",
-			"reverse_after":true
+			"type":"group"
 		},
 		"track":{
 			"type":"sort"
@@ -25,10 +25,12 @@
 	},
 	"album_reversed":{
 		"date":{
-			"type":"sort"
+			"type":"sort",
+			"reverse":true
 		},
 		"album":{
-			"type":"group"
+			"type":"group",
+			"reverse_after":true
 		},
 		"track":{
 			"type":"sort",
