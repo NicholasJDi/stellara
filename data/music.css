@@ -1,17 +1,90 @@
+.filter-box {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+}
+
 .searchbar {
 	color: white;
 	box-sizing: border-box;
 	background-color: black;
-	border-radius: 0.2em;
 	outline: none;
 	border: 0.2em solid transparent;
+	border-top-left-radius: 0.3em;
+	border-bottom-left-radius: 0.3em;
 	width: 100%;
 	padding: 0.5em;
 	user-select: none;
+	flex: 1;
 }
 
 .searchbar:focus {
   border-color: lightseagreen;
+}
+
+.sort {
+	text-wrap: nowrap;
+	font-size: 1em;
+	color: white;
+	background-color: rgb(50,50,50);
+	border: 0.2em solid rgb(80, 80, 80);
+	border-top-right-radius: 0.3em;
+	border-bottom-right-radius: 0.3em;
+	padding: 0.5em;
+	transition: background-color 0.1s ease-out;
+	user-select: none;
+	cursor: pointer;
+}
+
+.sort:hover {
+	background-color: rgb(60,60,60);
+}
+
+.sort-dropdown {
+	position: absolute;
+	display: none;
+	flex-direction: column;
+	align-items: stretch;
+	background-color: rgb(40, 40, 40);
+	border: 0.15em solid rgb(75, 75, 75);
+	top: 110%;
+	right: 0;
+	z-index: 1;
+}
+
+.sort-dropdown.open {
+	display: flex;
+}
+
+.sort-dropdown-item {
+	text-wrap: nowrap;
+	text-align: center;
+	font-family: 'Jersey 25', Verdana, serif;
+	font-size: 1em;
+	color: white;
+	background-color: transparent;
+	border: none;
+	padding: 0.1em 0.2em;
+	transition: background-color 0.1s ease-out;
+	user-select: none;
+	cursor: pointer;
+	flex: 1;
+}
+
+.sort-dropdown-item.selected {
+	background-color: rgb(60, 60, 60);
+}
+
+.sort-dropdown-item:hover {
+	background-color: rgb(70, 70, 70);
+}
+
+.sort-dropdown-item:first-child {
+	padding-top: 0.2em;
+}
+
+.sort-dropdown-item:last-child {
+	padding-bottom: 0.2em;
 }
 
 .song-list {
@@ -45,8 +118,6 @@
 .cover-art.link {
 	background-color: black;
 	border-right: 0.15em solid rgb(80, 80, 80);
-	border-top-left-radius: inherit;
-	border-bottom-left-radius: inherit;
 	height: 7em;
 	aspect-ratio: 1;
 	flex-shrink: 0;
@@ -71,8 +142,6 @@
 	flex-direction: row;
 	align-items: center;
 	flex: 1;
-	border-top-right-radius: inherit;
-	border-bottom-right-radius: inherit;
 	padding: 0 1em;
 }
 
@@ -239,8 +308,6 @@
 
 .dropdown-item:hover { background-color: rgb(60, 60, 60); }
 
-.dropdown-item.bottom { padding-bottom: .5em; }
-
 button.dropdown-item {
 	font-family: 'Jersey 25', Verdana, serif;
 	font-size: 1em;
@@ -370,6 +437,7 @@ button.dropdown-item {
 	height: 100%;
 	border-right: 0.1em solid rgb(90, 90, 90);
 	padding: 0 1em;
+	transition: background-color 0.1s ease-out;
 }
 
 .track-info-menu:has(.raw-data-menu:not(.visible)) .track-info-menu-button { background-color: rgb(60, 60, 60); }
@@ -388,6 +456,7 @@ button.dropdown-item {
 	height: 100%;
 	border-right: 0.1em solid rgb(90, 90, 90);
 	padding: 0 1em;
+	transition: background-color 0.1s ease-out;
 }
 
 .track-info-menu:has(.raw-data-menu.visible) .raw-data-menu-button { background-color: rgb(60, 60, 60); }

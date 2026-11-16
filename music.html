@@ -89,14 +89,29 @@
 	</div>
 	<div class="content">
 		<div class="content-inner">
-			<input type="text" class="searchbar" placeholder="Search...">
+			<div class="filter-box">
+				<input type="text" class="searchbar" placeholder="Search...">
+				<button class="sort">Sort v</button>
+				<div class="sort-dropdown">
+					<button class="sort-dropdown-item" id="none">None</button>
+					<button class="sort-dropdown-item" id="none-reversed">None Reversed</button>
+					<button class="sort-dropdown-item" id="title">Title</button>
+					<button class="sort-dropdown-item" id="title-reversed">Title Reversed</button>
+					<button class="sort-dropdown-item" id="album">Album</button>
+					<button class="sort-dropdown-item" id="album-reversed">Album Reversed</button>
+					<button class="sort-dropdown-item" id="date">Date</button>
+					<button class="sort-dropdown-item" id="date-reversed">Date Reversed</button>
+					<button class="sort-dropdown-item" id="type">Type</button>
+					<button class="sort-dropdown-item" id="type-reversed">Type Reversed</button>
+				</div>
+			</div>
 			<div class="song-list"><h2 class="no-results-text">No Results</h2></div>
 			<div class="dropdown">
 				<a class="dropdown-item" id="download-with-art" target="_blank" download="">Download<br>(With Art)</a>
 				<a class="dropdown-item" id="download-no-art" target="_blank" download="">Download<br>(No Art)</a>
 				<a class="dropdown-item" id="download-library" target="_blank" download="">Download<br>(Library)</a>
 				<a class="dropdown-item" id="download-art-high-res" target="_blank" download="">Download<br>Cover Art</a>
-				<button class="dropdown-item bottom" id="open-menu">More Track Info..</button>
+				<button class="dropdown-item" id="open-menu">More Track Info..</button>
 			</div>
 		</div>
 	</div>

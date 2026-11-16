@@ -245,6 +245,10 @@ function getDateString(date) {
 
 function searchSort(query, sort) {
 	if (loadFailed) return;
+	if (!sort || !Object.keys(sortScheme).includes(sort)) {
+		sort = "default";
+	}
+	
 	const sorted = sortDataBySchemeMode(rawData, sortScheme, sort);
 	const data = sortDataBySearchTags(sorted, searchScheme, query);
 	const ids = data.map(item => item.id).filter(Boolean);

@@ -33,7 +33,7 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 	if (inputText === "" && Object.keys(inputTags).length === 0) {
 		return data;
 	} else {
-		data = [...data].reverse();
+		data = [...data]
 
 		const outData = [];
 		const index = new Array(data.length).fill(0);
@@ -172,7 +172,7 @@ export function sortDataBySchemeMode(data, sortScheme, sortMode = "default") {
 }
 
 export function sortData(data, sortMode) {
-	let groups = [data];
+	let groups = [[...data]];
 
 	for (const ruleKey of Object.keys(sortMode)) {
 		const rule = sortMode[ruleKey];

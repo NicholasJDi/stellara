@@ -85,7 +85,8 @@
 			"reverse":true
 		},
 		"title":{
-			"type":"sort"
+			"type":"sort",
+			"reverse":true
 		}
 	}
 }
