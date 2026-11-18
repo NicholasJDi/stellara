@@ -450,40 +450,23 @@ function isValidUrl(string) {
 	}
 }
 
+const player = window.player || {};
+
 function playSong(id) {
 	const song = data.get(id);
 	const src = song.file_art ?? song.file ?? song.file_library ?? '';
 	let playerData = {};
-	if (!window.playerAudio) {
-		window.playerPrepare();
-		window.playerNext = nextSong;
-		window.playerPrevious = previousSong;
-	}
 	playerData.id = id;
 	playerData.title = song.title ?? 'Unknown';
-	playerData.artist = song.artists?.join(', ') ?? 'Unknown';
+	playerData.artist = song.artists ?? 'Unknown';
 	playerData.art = song.art ?? song.art_high_res ?? '';
 	playerData.song = src;
 	playerData.time = 0;
-
-	if (playerData.song) {
-		sessionStorage.setItem('player-playing', true);
-		localStorage.setItem('player', JSON.stringify(playerData));
-	} else {
-		localStorage.removeItem('player');
-		sessionStorage.removeItem('player-playing');
-
-		if (window.playerHide) {
-			window.playerHide();
-		}
-	}
-	window.playerAudio.pause();
-	window.playerAudio.currentTime = 0;
-	window.playerAudio.src = src;
-	window.playerAudio.play().catch(() => { if (window.playerHide) window.playerHide(); });
+	sessionStorage.setItem('player-playing', true);
+	window.player.data = playerData;
 }
 
-function nextSong(currentId) {
+player.next = (currentId) => {
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>
@@ -497,12 +480,22 @@ function nextSong(currentId) {
 
 	const currentIndex = items.findIndex(el => el.id === currentId);
 	const nextIndex = currentIndex === -1 || currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+	
+	const id = items[nextIndex].id;
 
-	const nextItem = items[nextIndex];
-	playSong(nextItem.id);
+	const song = data.get(id);
+	const src = song.file_art ?? song.file ?? song.file_library ?? '';
+	let playerData = {};
+	playerData.id = id;
+	playerData.title = song.title ?? 'Unknown';
+	playerData.artist = song.artists ?? 'Unknown';
+	playerData.art = song.art ?? song.art_high_res ?? '';
+	playerData.song = src;
+	playerData.time = 0;
+	return playerData;
 }
 
-function previousSong(currentId) {
+player.previous = (currentId) => {
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>
@@ -517,11 +510,16 @@ function previousSong(currentId) {
 	const currentIndex = items.findIndex(el => el.id === currentId);
 	const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
 
-	const prevItem = items[prevIndex];
-	playSong(prevItem.id);
-}
-
-if (window.playerAudio) {
-	window.playerNext = nextSong;
-	window.playerPrevious = previousSong;
+	const id = items[prevIndex].id;
+	
+	const song = data.get(id);
+	const src = song.file_art ?? song.file ?? song.file_library ?? '';
+	let playerData = {};
+	playerData.id = id;
+	playerData.title = song.title ?? 'Unknown';
+	playerData.artist = song.artists ?? 'Unknown';
+	playerData.art = song.art ?? song.art_high_res ?? '';
+	playerData.song = src;
+	playerData.time = 0;
+	return playerData;
 }
