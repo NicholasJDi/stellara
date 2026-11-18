@@ -162,7 +162,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		updateVolume = (override) => {
 			if (override) volumeBar.value = override;
-			if (window.playerAudio) window.playerAudio.volume = volumeBar.value / 100;
+			const playerVolume = volumeBar.value / 100;
+			if (window.playerAudio) window.playerAudio.volume = playerVolume;
+			localStorage.setItem('player-volume', playerVolume);
 
 			if (volumeBar.value == 0) {
 				volume.classList.remove('low');

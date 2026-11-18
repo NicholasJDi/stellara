@@ -295,7 +295,7 @@ function handleHash() {
 	const id = window.location.hash.slice(1);
 	if (!id) return;
 
-	const item = songList.querySelector(`#${CSS.escape(id)}`);
+	const item = songList.querySelector('.song-list-item', `#${CSS.escape(id)}`);
 	if (!item) return;
 
 	if (item.classList.contains('visible')) {
