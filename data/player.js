@@ -302,7 +302,7 @@
 	if (loop === undefined) loopButton.onpointerdown = () => {
 		audio.loop = loopButton.classList.toggle('pressed');
 	};
-	loopButton.classList.toggle('pressed', (loop !== undefined || data.loop || false));
+	audio.loop = loopButton.classList.toggle('pressed', (loop !== undefined || data.loop || false));
 
 	playPause.onpointerdown = () => {
 		if (playing) {
