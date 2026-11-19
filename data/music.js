@@ -450,7 +450,7 @@ function isValidUrl(string) {
 	}
 }
 
-const player = window.player || {};
+if (!window.player) window.player = {};
 
 function playSong(id) {
 	const song = data.get(id);
@@ -466,7 +466,7 @@ function playSong(id) {
 	window.player.data = playerData;
 }
 
-player.next = (currentId) => {
+window.player.next = (currentId) => {
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>
@@ -495,7 +495,7 @@ player.next = (currentId) => {
 	return playerData;
 }
 
-player.previous = (currentId) => {
+window.player.previous = (currentId) => {
 	if (!currentId) return;
 
 	const items = [...visibleSongListItems].filter(el =>

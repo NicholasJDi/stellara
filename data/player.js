@@ -72,7 +72,11 @@
 	const volumeButton = player.querySelector('.player-button.volume');
 	const volumeBar = player.querySelector('.player-volume-bar');
 
-	let data = JSON.parse(localStorage.getItem('player') || '{}');
+	const existing = window.player || {};
+	let nextHandler = existing.next || null;
+	let previousHandler = existing.previous || null;
+
+	let data = existing.data || JSON.parse(localStorage.getItem('player') || '{}');
 	let playing = sessionStorage.getItem('player-playing') === 'true';
 	let volume = Number(localStorage.getItem('player-volume') || '0.5');
 	if (!isFinite(volume)) volume = 0.5
@@ -82,10 +86,6 @@
 	let lengthSeconds = 0;
 	let lengthMinutes = 0;
 	let lengthHours = 0;
-
-	const existing = window.player || {};
-	let nextHandler = existing.next || null;
-	let previousHandler = existing.previous || null;
 
 	const audio = new Audio(data?.song);
 	Object.defineProperties(audio, {
@@ -163,7 +163,6 @@
 	function next() {
 		if (nextHandler) {
 			data = nextHandler(data.id);
-			console.log(data)
 			sessionStorage.setItem('player-playing', true)
 			reset();
 		}
@@ -328,4 +327,36 @@
 
 	reset();
 	window.player = audio;
+
+	navigator.mediaSession?.setActionHandler('play', () => {
+		audio.play();
+	});
+
+	navigator.mediaSession?.setActionHandler('pause', () => {
+		audio.pause();
+	});
+
+	navigator.mediaSession?.setActionHandler('stop', () => {
+		clear();
+	});
+
+	navigator.mediaSession?.setActionHandler('seekto', (seekTime) => {
+		audio.currentTime = seekTime || 0;
+	});
+
+	navigator.mediaSession?.setActionHandler('seekforward', (seekOffset) => {
+		audio.currentTime += seekOffset;
+	});
+
+	navigator.mediaSession?.setActionHandler('seekbackward', (seekOffset) => {
+		audio.currentTime -= seekOffset;
+	});
+
+	navigator.mediaSession?.setActionHandler('nexttrack', () => {
+		next();
+	});
+
+	navigator.mediaSession?.setActionHandler('previoustrack', () => {
+		previous();
+	});
 })();
