@@ -9,21 +9,21 @@
 	<script defer src="data/sidebar.js"></script>
 	<link rel="stylesheet" href="data/player.css" type="text/css" media="all">
 	<link rel="stylesheet" href="data/music.css" type="text/css" media="all">
-	<script type="module" src="data/searchbar.js"></script>
+	<script type="module" src="data/music.js"></script>
 </head>
 <body>
 	<div class="menu-box">
-		<div class="track-info-menu">
+		<div class="menu">
 			<div class="menu-bar">
-				<button class="close-info-menu-button">X</button>
-				<button class="size-info-menu-button">□</button>
-				<button class="raw-data-menu-button">Raw Data</buttom>
-				<button class="track-info-menu-button">Track Info</button>
+				<button class="close-menu-button">X</button>
+				<button class="size-menu-button">□</button>
+				<button class="data-menu-button">Raw Data</buttom>
+				<button class="info-menu-button">Track Info</button>
 			</div>
 			<div class="info-menu">
 				info go here
 			</div>
-			<div class="raw-data-menu">test</div>
+			<div class="data-menu">test</div>
 		</div>
 	</div>
 	<div class="topbar">
@@ -56,16 +56,16 @@
 				<input type="text" class="searchbar" placeholder="Search...">
 				<button class="sort">Sort v</button>
 				<div class="sort-dropdown">
-					<button class="sort-dropdown-item" id="none">None</button>
-					<button class="sort-dropdown-item" id="none-reversed">None Reversed</button>
-					<button class="sort-dropdown-item" id="title">Title</button>
-					<button class="sort-dropdown-item" id="title-reversed">Title Reversed</button>
-					<button class="sort-dropdown-item" id="album">Album</button>
-					<button class="sort-dropdown-item" id="album-reversed">Album Reversed</button>
-					<button class="sort-dropdown-item" id="date">Date</button>
-					<button class="sort-dropdown-item" id="date-reversed">Date Reversed</button>
-					<button class="sort-dropdown-item" id="type">Type</button>
-					<button class="sort-dropdown-item" id="type-reversed">Type Reversed</button>
+					<a class="url-modifier sort-dropdown-item" href="?sort=none">None</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=none-reversed">None Reversed</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=title">Title</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=title-reversed">Title Reversed</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=album">Album</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=album-reversed">Album Reversed</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=date">Date</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=date-reversed">Date Reversed</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=type">Type</a>
+					<a class="url-modifier sort-dropdown-item" href="?sort=type-reversed">Type Reversed</a>
 				</div>
 			</div>
 			<div class="song-list"><h2 class="no-results-text">No Results</h2></div>
@@ -74,7 +74,7 @@
 				<a class="dropdown-item" id="download-no-art" target="_blank" download="">Download<br>(No Art)</a>
 				<a class="dropdown-item" id="download-library" target="_blank" download="">Download<br>(Library)</a>
 				<a class="dropdown-item" id="download-art-high-res" target="_blank" download="">Download<br>Cover Art</a>
-				<button class="dropdown-item" id="open-menu">More Track Info..</button>
+				<a class="dropdown-item" id="open-menu">More Track Info..</a>
 			</div>
 		</div>
 	</div>

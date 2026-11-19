@@ -49,9 +49,9 @@
 			</div>
 		</div>
 		<div class="player-info">
-			<p class="player-time">0</p>
+			<p class="player-time">0:00</p>
 			<input class="player-bar" type="range"/>
-			<p class="player-length">0</p>
+			<p class="player-length">0:00</p>
 		</div>
 	`;
 	script.parentNode.insertBefore(player, script);

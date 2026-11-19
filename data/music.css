@@ -61,10 +61,11 @@
 	text-align: center;
 	font-family: 'Jersey 25', Verdana, serif;
 	font-size: 1em;
-	color: white;
+	color: white !important;
 	background-color: transparent;
 	border: none;
 	padding: 0.1em 0.2em;
+	text-decoration: none;
 	transition: background-color 0.1s ease-out;
 	user-select: none;
 	cursor: pointer;
@@ -94,8 +95,6 @@
 	gap: 1em;
 	margin-top: 1.5em;
 }
-
-.song-list.hidden { display: none; }
 
 .no-results-text {
 	margin-top: 0;
@@ -198,12 +197,13 @@
 
 .type-text {
 	--type-color: 255, 255, 255;
-	color: rgb(var(--type-color));
+	color: rgb(var(--type-color)) !important;
 	border: 0.15em solid rgb(var(--type-color));
 	border-radius: 9999px;
 	padding: 0.2em 0.35em;
 	margin: 0;
 	cursor: default;
+	text-decoration: none;
 	user-select: none;
 	transition: background-color 0.1s ease-out;
 }
@@ -238,7 +238,7 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	color: white;
+	color: white !important;
 	background-color: lightseagreen;
 	font-family: 'Jersey 25', Verdana, serif;
 	font-size: 1.1em;
@@ -246,6 +246,7 @@
 	border-right: 1px solid rgba(255, 255, 255, 0.13);
 	border-radius: 9999px 0 0 9999px;
 	padding: 0.3em 0.5em;
+	text-decoration: none;
 	transition: background-color 0.1s ease-out, border-color 0.1s ease-out;
 	cursor: pointer;
 }
@@ -308,13 +309,6 @@
 
 .dropdown-item:hover { background-color: rgb(60, 60, 60); }
 
-button.dropdown-item {
-	font-family: 'Jersey 25', Verdana, serif;
-	font-size: 1em;
-	border: none;
-	cursor: pointer;
-}
-
 .menu-box {
 	position: fixed;
 	display: flex;
@@ -332,17 +326,17 @@ button.dropdown-item {
 	z-index: 2;
 }
 
-.menu-box:has(.track-info-menu.visible) {
+.menu-box:has(.menu.visible) {
 	pointer-events: auto;
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
-.menu-box:has(.track-info-menu.full) {
+.menu-box:has(.menu.full) {
 	padding: 0 !important;
 	transition: none;
 }
 
-.track-info-menu {
+.menu {
 	display: none;
 	box-sizing: border-box;
 	background-color: rgb(40, 40, 40);
@@ -357,14 +351,14 @@ button.dropdown-item {
 	z-index: 3;
 }
 
-.track-info-menu.full {
+.menu.full {
 	border: 0;
 	border-radius: 0;
 	max-width: 100cqw;
 	height: 100%;
 }
 
-.track-info-menu.visible { display: flex; }
+.menu.visible { display: flex; }
 
 .info-menu {
 	background-repeat: no-repeat;
@@ -376,7 +370,7 @@ button.dropdown-item {
 	overflow: auto;
 }
 
-.raw-data-menu {
+.data-menu {
 	display: none;
 	flex-direction: column;
 	padding: 1em;
@@ -384,9 +378,9 @@ button.dropdown-item {
 	overflow: auto;
 }
 
-.raw-data-menu.visible { display: flex; }
+.data-menu.visible { display: flex; }
 
-.track-info-menu:has(.raw-data-menu.visible) .info-menu { display: none; }
+.menu:has(.data-menu.visible) .info-menu { display: none; }
 
 .raw-data-title { padding: 0; }
 
@@ -400,7 +394,7 @@ button.dropdown-item {
 	border-bottom: 0.1em solid rgb(90,90,90);
 }
 
-.close-info-menu-button {
+.close-menu-button {
 	color: white;
 	background-color: transparent;
 	text-align: center;
@@ -412,9 +406,9 @@ button.dropdown-item {
 	margin: 0.5em 0.5em 0.5em 0;
 }
 
-.close-info-menu-button:hover { background-color: rgb(70, 70, 70); }
+.close-menu-button:hover { background-color: rgb(70, 70, 70); }
 
-.size-info-menu-button {
+.size-menu-button {
 	color: white;
 	text-align: center;
 	background-color: transparent;
@@ -426,9 +420,9 @@ button.dropdown-item {
 	margin: 0.5em 0 0.5em 0;
 }
 
-.size-info-menu-button:hover { background-color: rgb(70, 70, 70); }
+.size-menu-button:hover { background-color: rgb(70, 70, 70); }
 
-.track-info-menu-button {
+.info-menu-button {
 	color: white;
 	text-align: center;
 	background-color: transparent;
@@ -440,13 +434,13 @@ button.dropdown-item {
 	transition: background-color 0.1s ease-out;
 }
 
-.track-info-menu:has(.raw-data-menu:not(.visible)) .track-info-menu-button { background-color: rgb(60, 60, 60); }
+.menu:has(.data-menu:not(.visible)) .info-menu-button { background-color: rgb(60, 60, 60); }
 
-.track-info-menu-button:hover { background-color: rgb(70, 70, 70) !important; }
+.info-menu-button:hover { background-color: rgb(70, 70, 70) !important; }
 
-.track-info-menu:has(.raw-data-menu.visible) .track-info-menu-button { color: rgba(255, 255, 255, 0.8); }
+.menu:has(.data-menu.visible) .info-menu-button { color: rgba(255, 255, 255, 0.8); }
 
-.raw-data-menu-button {
+.data-menu-button {
 	color: white;
 	text-align: center;
 	background-color: transparent;
@@ -459,11 +453,11 @@ button.dropdown-item {
 	transition: background-color 0.1s ease-out;
 }
 
-.track-info-menu:has(.raw-data-menu.visible) .raw-data-menu-button { background-color: rgb(60, 60, 60); }
+.menu:has(.data-menu.visible) .data-menu-button { background-color: rgb(60, 60, 60); }
 
-.raw-data-menu-button:hover { background-color: rgb(70, 70, 70) !important;}
+.data-menu-button:hover { background-color: rgb(70, 70, 70) !important;}
 
-.track-info-menu:has(.raw-data-menu:not(.visible)) .raw-data-menu-button { color: rgba(255, 255, 255, 0.8); }
+.menu:has(.data-menu:not(.visible)) .data-menu-button { color: rgba(255, 255, 255, 0.8); }
 
 @container (max-width: 68.8em) {
 	.info-box { gap: 1em; }

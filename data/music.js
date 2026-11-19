@@ -1,11 +1,12 @@
 import { sortDataBySchemeMode, sortDataBySearchTags } from "./search-sort.js";
 
-export default searchSort;
-
-const noResultsText = document.querySelector('.no-results-text');
-
-let loadFailed = false;
-let hashHandled = false;
+function debounce(func, delay) {
+	let timeoutId;
+	return function(...args) {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(func.apply(this, args), delay);
+	};
+}
 
 async function fetchJsonData(url, backup = {}) {
 	try {
@@ -19,219 +20,14 @@ async function fetchJsonData(url, backup = {}) {
 		return backup;
 	}
 }
-const searchParams = new URLSearchParams(window.location.search);
-const dataParam = searchParams.get('data');
-const dataOverride = isValidUrl(dataParam) ? dataParam.endsWith('.json') ? dataParam : '' : '';
 
-const songListItems = new Map();
-const visibleSongListItems = new Set();
-
-const data = new Map();
-
-const dropdown = document.querySelector('.dropdown');
-const dropdownDownload = dropdown.querySelector('#download-with-art');
-const dropdownDownloadNoArt = dropdown.querySelector('#download-no-art');
-const dropdownDownloadLibrary = dropdown.querySelector('#download-library');
-const dropdownDownloadArt = dropdown.querySelector('#download-art-high-res');
-const dropdownOpenMenu = dropdown.querySelector('#open-menu');
-
-const menuBox = document.querySelector('.menu-box ');
-const trackInfoMenu = menuBox.querySelector('.track-info-menu');
-const rawDataMenu = trackInfoMenu.querySelector('.raw-data-menu');
-const menuCloseButton = trackInfoMenu.querySelector('.close-info-menu-button');
-const menuSizeButton = trackInfoMenu.querySelector('.size-info-menu-button');
-const rawDataButton = trackInfoMenu.querySelector('.raw-data-menu-button');
-const trackInfoButton = trackInfoMenu.querySelector('.track-info-menu-button');
-
-const infoMenu = trackInfoMenu.querySelector('.info-menu');
-
-const rawData = await fetchJsonData(dataOverride || "https://stellara.nicholasjdi.dev/data/music/data.json", []);
-const searchScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/search.json", null);
-const sortScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/sort.json", null);
-const songList = document.querySelector('.song-list');
-if (rawData && searchScheme && sortScheme && songList) {
+function isValidUrl(string) {
 	try {
-		const typeMap = {
-			single: 'Single',
-			remix: 'Remix',
-			album: 'Album',
-			ep: 'EP'
-		};
-		// populate songList
-		for (const song of rawData) {
-			// prepare stuff
-			const id = song.id;
-			if (!id) {
-				console.error(`${JSON.stringify(song)} does not include an id`);
-				continue;
-			}
-			const art = song.art ?? song.art_high_res ?? '';
-			const art_high_res = song.art_high_res ?? song.art ?? '';
-			if (!art || !art_high_res) {
-				console.warn(`${JSON.stringify(song)} does not include art`);
-			}
-			const title = song.title ?? 'Missing Title :<';
-			const artists = song.artists?.join(', ') ?? 'Missing Artist(s) :<';
-			const date = getDateString(song.date) ?? 'Unknown';
-			const album = song.album ?? song.title ?? '';
-			const type = typeMap[song.type?.toLowerCase()] ?? 'Unknown';
-
-			// save data
-			data.set(id, song);
-
-			// build the item
-			const songListItem = document.createElement("div");
-			songListItem.className = 'song-list-item';
-			songListItem.id = id;
-
-			// set the items content
-			songListItem.innerHTML = `
-				<a class="cover-art link" target="_blank">
-					<img class="cover-art image" onerror="this.style.visibility='hidden'">
-				</a>
-				<div class="content-box">
-					<div class="details-box">
-						<p class="title-text"></p>
-						<p class="artist-text"></p>
-					</div>
-					<div class="right-box">
-						<div class="info-box">
-							<div class="date-box">
-								<p class="date-text"></p>
-							</div>
-							<div class="type-box">
-								<p class="type-text"></p>
-							</div>
-						</div>
-						<div class="dropdown-box">
-							<button class="play-button"><svg width="1.3em" height="1.3em" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.322 7.576a.5.5 0 0 1 0 .848l-6.557 4.098A.5.5 0 0 1 5 12.098V3.902a.5.5 0 0 1 .765-.424z" fill="currentColor"/></svg> Play</button>
-							<button class="dropdown-button">V</button>
-						</div>
-					</div>
-				</div>
-			`;
-
-			// assign the items data
-			songListItem.querySelector('.title-text').textContent = title;
-			songListItem.querySelector('.artist-text').textContent = artists;
-			songListItem.querySelector('.date-text').textContent = date;
-
-			const typeText = songListItem.querySelector('.type-text');
-			typeText.textContent = type;
-			typeText.classList.add(type.toLowerCase());
-			typeText.title = album;
-
-			const link = songListItem.querySelector('.cover-art.link');
-			link.href = art_high_res;
-
-			const cover = songListItem.querySelector('.cover-art.image');
-			cover.src = art;
-			
-			// add the item
-			songListItems.set(id, songListItem);
-			songList.appendChild(songListItem);
-		}
-
-		songList.addEventListener('click', (event) => {
-			if (!dropdown) return;
-
-			const button = event.target.closest('.dropdown-button');
-			if (!button) return;
-
-			const songItem = button.closest('.song-list-item');
-			const dropdownBox = button.closest('.dropdown-box');
-
-			if (!songItem || !dropdownBox) return;
-
-			const id = songItem.id;
-
-			handleDropdownClick(id, dropdownBox);
-		});
-
-		songList.addEventListener('click', (event) => {
-			const button = event.target.closest('.play-button');
-			if (!button) return;
-
-			const songItem = button.closest('.song-list-item');
-			if (!songItem) return;
-			const id = songItem.id;
-
-			playSong(id);
-		});
-
-		document.addEventListener('click', (event) => {
-			if (!dropdown.classList.contains('open')) return;
-
-			if (!dropdown.parentElement.contains(event.target)) {
-				hideDropdown(dropdown.parentElement);
-			}
-		});
-
-		if (dropdownOpenMenu) {
-			dropdownOpenMenu.onclick = () => {
-				const songItem = dropdownOpenMenu.closest('.song-list-item');
-				if (!songItem) return;
-				const id = songItem.id;
-
-				showTrackInfoMenu(id);
-				hideDropdown(dropdown.parentElement);
-			};
-		}
-
-		if (menuBox) {
-			menuBox.onclick = (event) => {
-				if (!trackInfoMenu) return;
-				if (!trackInfoMenu.contains(event.target)) {
-					hideTrackInfoMenu();
-				}
-			};
-		}
-
-		if (menuCloseButton) {
-			menuCloseButton.onclick = () => {
-				hideTrackInfoMenu();
-			};
-		}
-
-		if (menuSizeButton) {
-			menuSizeButton.onclick = () => {
-				const isFull = trackInfoMenu.classList.toggle('full');
-				menuSizeButton.textContent = isFull ? '–' : '□';
-
-				// force layout recalculation
-				requestAnimationFrame(() => {
-					trackInfoMenu.style.display = 'none';
-					trackInfoMenu.offsetHeight; // force reflow
-					trackInfoMenu.style.display = '';
-				});
-			};
-		}
-
-		if (rawDataMenu) {
-			if (rawDataButton) {
-				rawDataButton.onclick = () => {
-					rawDataMenu.classList.add('visible');
-					if (rawDataMenu.id != trackInfoMenu.id) {
-						rawDataMenu.id = trackInfoMenu.id;
-						setRawDataMenuContent(rawDataMenu.id);
-					}
-				};
-			}
-			if (trackInfoButton) {
-				trackInfoButton.onclick = () => {
-					rawDataMenu.classList.remove('visible');
-				};
-			}
-		}
-
-		window.addEventListener('hashchange', handleHash);
-
-	} catch (e) {
-		console.error(`${e}`)
+		new URL(string);
+		return true;
+	} catch (err) {
+		return false;
 	}
-} else {
-	loadFailed = true;
-	console.error(`Failed to fetch Json data, listData: ${!!rawData}; searchScheme: ${!!searchScheme}; sortScheme: ${!!sortScheme}; songList: ${!!songList};`);
 }
 
 function getDateString(date) {
@@ -243,28 +39,155 @@ function getDateString(date) {
 	return `${months[index]} ${nums[2]}, ${nums[0]}`;
 }
 
-function searchSort(query, sort) {
-	if (loadFailed) return;
-	if (!sort || !Object.keys(sortScheme).includes(sort)) {
-		sort = "default";
+function updateParam(param, value = null) {
+	const url = new URL(window.location.href);
+	if (url.searchParams.get(param) === value) return;
+
+	if (value) {
+		url.searchParams.set(param, value);
+	} else {
+		url.searchParams.delete(param);
 	}
-	
-	const sorted = sortDataBySchemeMode(rawData, sortScheme, sort);
-	const data = sortDataBySearchTags(sorted, searchScheme, query);
-	const ids = data.map(item => item.id).filter(Boolean);
-	musicListUpdate(ids);
-	if (hashHandled) return;
-	handleHash();
-	hashHandled = true;
+	window.history.pushState({}, '', url);
 }
 
-function musicListUpdate(ids) {
-	songList.classList.add('hidden');
 
-	// remove previous
-	for (const songListItem of visibleSongListItems) {
-		songListItem.classList.remove("visible");
+const typeMap = {
+	single: 'Single',
+	remix: 'Remix',
+	album: 'Album',
+	ep: 'EP'
+};
+
+const searchbar = document.querySelector('.searchbar');
+const sort = document.querySelector('.sort');
+const sortDropdown = document.querySelector('.sort-dropdown');
+
+const dropdown = document.querySelector('.dropdown');
+const dropdownDownload = dropdown.querySelector('#download-with-art');
+const dropdownDownloadNoArt = dropdown.querySelector('#download-no-art');
+const dropdownDownloadLibrary = dropdown.querySelector('#download-library');
+const dropdownDownloadArt = dropdown.querySelector('#download-art-high-res');
+const dropdownOpenMenu = dropdown.querySelector('#open-menu');
+
+const menu = document.querySelector('.menu');
+const sizeMenuButton = menu.querySelector('.size-menu-button');
+const dataMenuButton = menu.querySelector('.data-menu-button');
+const infoMenuButton = menu.querySelector('.info-menu-button');
+const infoMenu = menu.querySelector('.info-menu');
+const dataMenu = menu.querySelector('.data-menu');
+
+const songList = document.querySelector('.song-list');
+const noResultsText = songList.querySelector('.no-results-text');
+
+const searchScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/search.json");
+const sortScheme = await fetchJsonData("https://stellara.nicholasjdi.dev/data/music/sort.json");
+
+const songListItems = new Map();
+const visibleSongListItems = new Set();
+
+const data = new Map();
+
+let rawData = '';
+
+let searchQuery = ''
+let sortMode = ''
+
+
+function loadData(d) {
+	rawData = d;
+	// reset stuff
+	noResultsText.classList.remove('visible');
+	songListItems.forEach(item => item.remove());
+	visibleSongListItems.clear();
+	songListItems.clear();
+	data.clear();
+
+	// create items
+	const fragment = document.createDocumentFragment();
+	for (const song of rawData) {
+		// prepare stuff
+		const id = song.id;
+		if (!id) {
+			console.error(`${JSON.stringify(song)} does not include an id`);
+			continue;
+		}
+		const art = song.art ?? song.art_high_res ?? '';
+		const art_high_res = song.art_high_res ?? song.art ?? '';
+		if (!art || !art_high_res) {
+			console.warn(`${JSON.stringify(song)} does not include art`);
+		}
+		const title = song.title ?? 'Missing Title :<';
+		const artists = song.artists?.join(', ') ?? 'Missing Artist(s) :<';
+		const date = getDateString(song.date) ?? 'Unknown';
+		const album = song.album ?? song.title ?? '';
+		const type = typeMap[song.type?.toLowerCase()] ?? 'Unknown';
+
+		// save data
+		data.set(id, song);
+
+		// build the item
+		const songListItem = document.createElement("div");
+		songListItem.className = 'song-list-item';
+		songListItem.id = id;
+
+		// set the items content
+		songListItem.innerHTML = `
+			<a class="cover-art link" target="_blank">
+				<img class="cover-art image" onerror="this.style.visibility='hidden'">
+			</a>
+			<div class="content-box">
+				<div class="details-box">
+					<p class="title-text"></p>
+					<p class="artist-text"></p>
+				</div>
+				<div class="right-box">
+					<div class="info-box">
+						<div class="date-box">
+							<p class="date-text"></p>
+						</div>
+						<div class="type-box">
+							<a class="url-modifier type-text"></a>
+						</div>
+					</div>
+					<div class="dropdown-box">
+						<a class="url-modifier play-button"><svg width="1.3em" height="1.3em" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.322 7.576a.5.5 0 0 1 0 .848l-6.557 4.098A.5.5 0 0 1 5 12.098V3.902a.5.5 0 0 1 .765-.424z" fill="currentColor"/></svg> Play</a>
+						<button class="dropdown-button">V</button>
+					</div>
+				</div>
+			</div>
+		`;
+
+		// assign the items data
+		songListItem.querySelector('.title-text').textContent = title;
+		songListItem.querySelector('.artist-text').textContent = artists;
+		songListItem.querySelector('.date-text').textContent = date;
+
+		const typeText = songListItem.querySelector('.type-text');
+		typeText.textContent = type;
+		typeText.classList.add(type.toLowerCase());
+		typeText.title = album;
+		typeText.href = `?q=${encodeURIComponent(`type:${type} ${type === 'EP' || type === 'Album' ? 'album' : 'title'}:"${album}"`)}`;
+
+		const playButton = songListItem.querySelector('.play-button');
+		playButton.href = `?player=${encodeURIComponent(id)}`
+
+		const link = songListItem.querySelector('.cover-art.link');
+		link.href = art_high_res;
+
+		const cover = songListItem.querySelector('.cover-art.image');
+		cover.src = art;
+
+		// add the item
+		songListItems.set(id, songListItem);
+		fragment.appendChild(songListItem);
 	}
+	songList.appendChild(fragment);
+}
+
+function updateList(ids) {
+	// remove previous
+	visibleSongListItems.forEach(item => item.classList.remove('visible'));
 	visibleSongListItems.clear();
 
 	if (ids.length === 0) {
@@ -291,168 +214,203 @@ function musicListUpdate(ids) {
 	songList.classList.remove('hidden');
 }
 
-function handleHash() {
-	const id = window.location.hash.slice(1);
-	if (!id) return;
-
-	const item = songList.querySelector('.song-list-item', `#${CSS.escape(id)}`);
-	if (!item) return;
-
-	if (item.classList.contains('visible')) {
-		item.scrollIntoView({
-			behavior: 'smooth',
-			block: 'center'
-		});
+const search = debounce(() => {
+	if (!sortMode || !Object.keys(sortScheme).includes(sortMode)) {
+		sortMode = "default";
 	}
 
-	if (trackInfoMenu.classList.contains('visible')) {
-		hideTrackInfoMenu();
+	const sorted = sortDataBySchemeMode(rawData, sortScheme, sortMode);
+	const data = sortDataBySearchTags(sorted, searchScheme, searchQuery);
+	const ids = data.map(item => item.id).filter(Boolean);
+
+	updateList(ids);
+}, 300);
+
+function syncWithURL() {
+	const newSearchParams = new URLSearchParams(window.location.search);
+	const newQueryParam = newSearchParams.get('q') || '';
+	const newSortParam = newSearchParams.get('sort') || '';
+	const newPlayerParam = newSearchParams.get('player') || '';
+
+	let searchPls = false;
+	if (newQueryParam !== searchQuery) {
+		searchQuery = newQueryParam;
+		searchbar.value = searchQuery;
+		searchPls = true;
 	}
-	showTrackInfoMenu(id);
+	if (newSortParam !== sortMode) {
+		sortMode = newSortParam;
+		searchPls = true;
+	}
+	if (searchPls) {
+		search();
+	}
+	if (newPlayerParam && newPlayerParam !== window.player.data.id) {
+		playSong(newPlayerParam);
+	}
 }
 
-function handleDropdownClick(id, dropdownBox) {
-	if (dropdown.classList.contains('open')) {
-		hideDropdown(dropdown.parentElement);
-		if (dropdown.parentElement !== dropdownBox) {
-			setDropdownContent(id)
-			showDropdown(dropdownBox);
+
+// url modifier
+document.addEventListener('click', (event) => {
+	const modifier = event.target.closest('.url-modifier');
+	if (!modifier) return;
+	if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+
+	event.preventDefault();
+
+	const href = modifier.getAttribute('href') || '';
+	const url = new URL(window.location.href);
+	const patch = new URL(href, window.location.href);
+
+	if (href.includes("?")) {
+		for (const [key, value] of patch.searchParams.entries()) {
+			if (value === "") {
+				url.searchParams.delete(key);
+			} else {
+				url.searchParams.set(key, value);
+			}
 		}
-	} else {
-		if (dropdown.parentElement !== dropdownBox) {
-			setDropdownContent(id)
-		}
-		showDropdown(dropdownBox);
 	}
-}
-
-function setDropdownContent(id) {
-	const song = data.get(id)
-	const withArt = song.file_art;
-	const noArt = song.file;
-	const library = song.file_library;
-	const art = song.art_high_res ?? song.art;
-
-	if (withArt) {
-		dropdownDownload.classList.remove('hidden');
-		dropdownDownload.href = withArt;
-	} else {
-		dropdownDownload.classList.add('hidden');
+	if (href.includes("#")) {
+		url.hash = patch.hash;
 	}
 
-	if (noArt) {
-		dropdownDownloadNoArt.classList.remove('hidden');
-		dropdownDownloadNoArt.href = noArt;
-	} else {
-		dropdownDownloadNoArt.classList.add('hidden');
+	window.history.pushState({}, '', url);
+	syncWithURL();
+});
+
+// search
+searchbar.addEventListener("input", (event) => {
+	searchQuery = event.target.value;
+	search(searchQuery, sortMode);
+});
+searchbar.addEventListener("change", (event) => {
+	const value = event.target.value.trim();
+	updateParam('q', value)
+});
+
+// sort
+sort.addEventListener("click", () => {
+	sortDropdown.classList.toggle('open');
+});
+document.addEventListener("click", (event) => {
+	if (!sortDropdown.classList.contains('open')) return;
+
+	if (!sortDropdown.parentElement.contains(event.target) || event.target === searchbar) {
+		sortDropdown.classList.remove('open');
 	}
+});
 
-	if (library) {
-		dropdownDownloadLibrary.classList.remove('hidden');
-		dropdownDownloadLibrary.href = library;
-	} else {
-		dropdownDownloadLibrary.classList.add('hidden');
-	}
+// dropdown
+songList.addEventListener('click', (event) => {
+	const button = event.target.closest('.dropdown-button');
+	if (!button) return;
 
-	if (art) {
-		dropdownDownloadArt.classList.remove('hidden');
-		dropdownDownloadArt.href = art;
-	} else {
-		dropdownDownloadArt.classList.add('hidden');
-	}
-}
+	const dropdownBox = button.closest('.dropdown-box');
+	const songListItem = dropdownBox.closest('.song-list-item');
 
-function showDropdown(dropdownBox) {
-	dropdownBox.appendChild(dropdown);
-	dropdownBox.querySelector('.play-button').style.zIndex = 101;
-	dropdownBox.querySelector('.dropdown-button').style.zIndex = 101;
-	dropdown.classList.add('open');
-}
+	if (!dropdownBox || !songListItem) return;
 
-function hideDropdown(dropdownBox) {
+	const id = songListItem.id;
+	const playButton = dropdownBox.querySelector('.play-button');
+	const dropdownButton = dropdownBox.querySelector('.dropdown-button');
+
+	const open = dropdown.classList.contains('open');
 	dropdown.classList.remove('open');
-	dropdownBox.querySelector('.play-button').style.zIndex = '';
-	dropdownBox.querySelector('.dropdown-button').style.zIndex = '';
-}
+	dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
+	dropdown.parentElement.querySelector('.dropdown-button').style.zIndex = '';
+	if (dropdown.parentElement !== dropdownBox) {
+		const song = data.get(id)
+		const withArt = song.file_art;
+		const noArt = song.file;
+		const library = song.file_library;
+		const art = song.art_high_res ?? song.art;
 
-function showTrackInfoMenu(id) {
-	if (id !== trackInfoMenu.id) {
-		trackInfoMenu.id = id;
-		setTrackInfoMenuContent(id);
-	}
+		dropdownOpenMenu.href = `#${encodeURIComponent(id)}`;
 
-	history.replaceState(null, '', `#${id}`);
-	trackInfoMenu.classList.add('visible');
-}
-
-function hideTrackInfoMenu() {
-	trackInfoMenu.classList.remove('visible');
-	rawDataMenu.classList.remove('visible');
-	history.replaceState(null, '', window.location.pathname + window.location.search);
-}
-
-function setTrackInfoMenuContent(id) {
-	// clean
-	infoMenu.style = '';
-
-	// prepare
-	const song = data.get(id);
-	const background = song.art_full;
-	const links = song.links;
-
-	// set
-	if (background) {
-		infoMenu.style.backgroundImage = `url("${background}")`;
-	}
-}
-
-function setRawDataMenuContent(id) {
-	const song = data.get(id);
-	rawDataMenu.innerHTML = '';
-
-	for (const [key, value] of Object.entries(song)) {
-		const item = document.createElement('div');
-		item.className = 'raw-data-item';
-
-		const title = document.createElement('h3');
-		title.className = 'raw-data-title';
-		title.textContent = key.replaceAll('_', ' ');
-
-		const text = document.createElement('p');
-		text.className = 'raw-data-text';
-
-		if (Array.isArray(value)) {
-			text.textContent = value.join(', ');
-		} else if (isValidUrl(value)) {
-			const link = document.createElement('a');
-			link.href = value;
-			link.target = '_blank';
-			link.textContent = value;
-			text.appendChild(link);
-		} else if (typeof value === "object") {
-			text.textContent = JSON.stringify(value)
+		if (withArt) {
+			dropdownDownload.classList.remove('hidden');
+			dropdownDownload.href = withArt;
 		} else {
-			text.textContent = value;
+			dropdownDownload.classList.add('hidden');
 		}
 
-		item.appendChild(title);
-		item.appendChild(text);
-		rawDataMenu.appendChild(item);
-	}
-}
+		if (noArt) {
+			dropdownDownloadNoArt.classList.remove('hidden');
+			dropdownDownloadNoArt.href = noArt;
+		} else {
+			dropdownDownloadNoArt.classList.add('hidden');
+		}
 
-function isValidUrl(string) {
-	try {
-		new URL(string);
-		return true;
-	} catch (err) {
-		return false;
-	}
-}
+		if (library) {
+			dropdownDownloadLibrary.classList.remove('hidden');
+			dropdownDownloadLibrary.href = library;
+		} else {
+			dropdownDownloadLibrary.classList.add('hidden');
+		}
 
+		if (art) {
+			dropdownDownloadArt.classList.remove('hidden');
+			dropdownDownloadArt.href = art;
+		} else {
+			dropdownDownloadArt.classList.add('hidden');
+		}
+	} else if (open) return;
+	dropdownBox.appendChild(dropdown);
+	playButton.style.zIndex = 101;
+	dropdownButton.style.zIndex = 101;
+	dropdown.classList.add('open');
+});
+document.addEventListener('click', (event) => {
+	if (!dropdown.classList.contains('open')) return;
+
+	if (!dropdown.parentElement.contains(event.target)) {
+		dropdown.classList.remove('open');
+		dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
+		dropdown.parentElement.style.querySelector('.play-button').zIndex = '';
+	}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// loading
+const searchParams = new URLSearchParams(window.location.search);
+const queryParam = searchParams.get('q') || '';
+const sortParam = searchParams.get('sort') || '';
+const playerParam = searchParams.get('player') || '';
+const dataParam = searchParams.get('data') || 'https://stellara.nicholasjdi.dev/data/music/data.json';
+
+searchQuery = queryParam;
+sortMode = sortParam;
+loadData( await fetchJsonData( isValidUrl(dataParam) ? dataParam : `https://stellara.nicholasjdi.dev/data/music/data/${dataParam}.json`, []));
+search();
+
+// player controls
 if (!window.player) window.player = {};
 
 function playSong(id) {
+	if (!data.has(id)) return;
 	const song = data.get(id);
 	const src = song.file_art ?? song.file ?? song.file_library ?? '';
 	let playerData = {};
@@ -467,21 +425,17 @@ function playSong(id) {
 }
 
 window.player.next = (currentId) => {
-	if (!currentId) return;
-
 	const items = [...visibleSongListItems].filter(el =>
 		el.classList?.contains('song-list-item')
 	);
 
-	if (items.length === 0) {
-		playSong(currentId);
-		return;
-	}
-
 	const currentIndex = items.findIndex(el => el.id === currentId);
 	const nextIndex = currentIndex === -1 || currentIndex === items.length - 1 ? 0 : currentIndex + 1;
-	
-	const id = items[nextIndex].id;
+
+	const id = items[nextIndex]?.id;
+	if (!id) return {};
+
+	updateParam("player", id);
 
 	const song = data.get(id);
 	const src = song.file_art ?? song.file ?? song.file_library ?? '';
@@ -496,22 +450,18 @@ window.player.next = (currentId) => {
 }
 
 window.player.previous = (currentId) => {
-	if (!currentId) return;
-
 	const items = [...visibleSongListItems].filter(el =>
 		el.classList?.contains('song-list-item')
 	);
 
-	if (items.length === 0) {
-		playSong(currentId);
-		return;
-	}
-
 	const currentIndex = items.findIndex(el => el.id === currentId);
 	const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
 
-	const id = items[prevIndex].id;
-	
+	const id = items[prevIndex]?.id;
+	if (!id) return {};
+
+	updateParam("player", id);
+
 	const song = data.get(id);
 	const src = song.file_art ?? song.file ?? song.file_library ?? '';
 	let playerData = {};
@@ -523,3 +473,5 @@ window.player.previous = (currentId) => {
 	playerData.time = 0;
 	return playerData;
 }
+
+if (playerParam !== window.player.data?.id) playSong(playerParam);
