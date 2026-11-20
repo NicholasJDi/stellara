@@ -456,6 +456,21 @@ function dataMenuElement(d, title = false) {
 	return element;
 }
 
+// menu full
+sizeMenuButton.onpointerdown = () => menuFull();
+function menuFull(full = undefined) {
+	const isFull = menu.classList.toggle('full', full);
+	sizeMenuButton.textContent = isFull ? '–' : '□';
+	
+	requestAnimationFrame(() => {
+		menu.style.display = 'none';
+		menu.offsetHeight; // force reflow
+		menu.style.display = '';
+	});
+
+	localStorage.setItem('menu-full', isFull);
+}
+
 
 // loading
 const searchParams = new URLSearchParams(window.location.search);
@@ -468,6 +483,8 @@ searchQuery = queryParam;
 sortMode = sortParam;
 loadData( await fetchJsonData( isValidUrl(dataParam) ? dataParam : `https://stellara.nicholasjdi.dev/data/music/data/${dataParam}.json`, []));
 search();
+
+menuFull(localStorage.getItem('menu-full') === 'true');
 handleHash();
 
 
