@@ -382,9 +382,20 @@
 
 .menu:has(.data-menu.visible) .info-menu { display: none; }
 
-.raw-data-title { padding: 0; }
+.data-title {
+	padding: 0;
+}
 
-.raw-data-text { padding: 0; }
+.data-text {
+	padding: 0;
+	margin: 0;
+}
+
+.data-text + .data-text {
+	margin-top: 0.5em;
+}
+
+.data-space { border: none; }
 
 .menu-bar {
 	display: flex;
@@ -395,15 +406,16 @@
 }
 
 .close-menu-button {
-	color: white;
+	color: white !important;
 	background-color: transparent;
 	text-align: center;
 	border: none;
 	border-radius: 9999px;
-	cursor: pointer;
 	width: 1.7em;
 	height: 1.7em;
 	margin: 0.5em 0.5em 0.5em 0;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 .close-menu-button:hover { background-color: rgb(70, 70, 70); }

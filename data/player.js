@@ -211,6 +211,7 @@
 		const timeMinutes = Math.floor(timeRaw / 60);
 		const timeHours = Math.floor(timeRaw / 3600);
 		time.textContent = `${lengthHours > 0 ? timeHours.toString().padStart(lengthHours.toString().length,"0") + ":" : ""}${lengthMinutes > 0 ? (lengthHours > 0 ? (timeMinutes % 60).toString().padStart(2, "0") + ":" : (timeMinutes % 60).toString().padStart((lengthMinutes % 60).toString().length,"0") + ":") : ""}${lengthSeconds > 0 ? (lengthMinutes > 0 ? (timeSeconds % 60).toString().padStart(2,"0") : (timeSeconds % 60).toString().padStart((lengthSeconds % 60).toString().length,"0")) : "0"}`;
+		bar.value = timeSeconds;
 	};
 
 	let lastSecond = -1;
@@ -294,7 +295,7 @@
 	volumeBar.onpointerdown = () => volumeSeeking = true;
 
 	volumeButton.onpointerdown = () => volumeButton.classList.toggle('pressed');
-	document.addEventListener('click', (event) => {
+	document.addEventListener('click', event => {
 		if (!volumeButton.parentElement.contains(event.target) ) volumeButton.classList.remove('pressed');
 	});
 

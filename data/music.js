@@ -48,7 +48,7 @@ function updateParam(param, value = null) {
 	} else {
 		url.searchParams.delete(param);
 	}
-	window.history.pushState({}, '', url);
+	window.history.replaceState({}, '', url);
 }
 
 
@@ -248,11 +248,13 @@ function syncWithURL() {
 	if (newPlayerParam && newPlayerParam !== window.player.data.id) {
 		playSong(newPlayerParam);
 	}
+
+	handleHash();
 }
 
 
 // url modifier
-document.addEventListener('click', (event) => {
+document.addEventListener("click", event => {
 	const modifier = event.target.closest('.url-modifier');
 	if (!modifier) return;
 	if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
@@ -272,20 +274,21 @@ document.addEventListener('click', (event) => {
 			}
 		}
 	}
+
 	if (href.includes("#")) {
 		url.hash = patch.hash;
 	}
 
-	window.history.pushState({}, '', url);
+	window.history.replaceState({}, '', url);
 	syncWithURL();
 });
 
 // search
-searchbar.addEventListener("input", (event) => {
+searchbar.addEventListener("input", event => {
 	searchQuery = event.target.value;
 	search(searchQuery, sortMode);
 });
-searchbar.addEventListener("change", (event) => {
+searchbar.addEventListener("change", event => {
 	const value = event.target.value.trim();
 	updateParam('q', value)
 });
@@ -294,7 +297,7 @@ searchbar.addEventListener("change", (event) => {
 sort.addEventListener("click", () => {
 	sortDropdown.classList.toggle('open');
 });
-document.addEventListener("click", (event) => {
+document.addEventListener("click", event => {
 	if (!sortDropdown.classList.contains('open')) return;
 
 	if (!sortDropdown.parentElement.contains(event.target) || event.target === searchbar) {
@@ -303,7 +306,7 @@ document.addEventListener("click", (event) => {
 });
 
 // dropdown
-songList.addEventListener('click', (event) => {
+songList.addEventListener("click", event => {
 	const button = event.target.closest('.dropdown-button');
 	if (!button) return;
 
@@ -329,32 +332,20 @@ songList.addEventListener('click', (event) => {
 
 		dropdownOpenMenu.href = `#${encodeURIComponent(id)}`;
 
-		if (withArt) {
-			dropdownDownload.classList.remove('hidden');
+		if (!dropdownDownload.classList.toggle('hidden', !withArt)) {
 			dropdownDownload.href = withArt;
-		} else {
-			dropdownDownload.classList.add('hidden');
 		}
 
-		if (noArt) {
-			dropdownDownloadNoArt.classList.remove('hidden');
+		if (!dropdownDownloadNoArt.classList.toggle('hidden', !noArt)) {
 			dropdownDownloadNoArt.href = noArt;
-		} else {
-			dropdownDownloadNoArt.classList.add('hidden');
 		}
 
-		if (library) {
-			dropdownDownloadLibrary.classList.remove('hidden');
+		if (!dropdownDownloadLibrary.classList.toggle('hidden', !library)) {
 			dropdownDownloadLibrary.href = library;
-		} else {
-			dropdownDownloadLibrary.classList.add('hidden');
 		}
 
-		if (art) {
-			dropdownDownloadArt.classList.remove('hidden');
+		if (!dropdownDownloadArt.classList.toggle('hidden', !art)) {
 			dropdownDownloadArt.href = art;
-		} else {
-			dropdownDownloadArt.classList.add('hidden');
 		}
 	} else if (open) return;
 	dropdownBox.appendChild(dropdown);
@@ -362,36 +353,108 @@ songList.addEventListener('click', (event) => {
 	dropdownButton.style.zIndex = 101;
 	dropdown.classList.add('open');
 });
-document.addEventListener('click', (event) => {
+document.addEventListener("click", event => {
 	if (!dropdown.classList.contains('open')) return;
 
 	if (!dropdown.parentElement.contains(event.target)) {
 		dropdown.classList.remove('open');
 		dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
-		dropdown.parentElement.style.querySelector('.play-button').zIndex = '';
+		dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
 	}
 });
 
+// info menu
+window.addEventListener('hashchange', event => {
+	event.preventDefault()
+	handleHash();
+});
+function handleHash() {
+	const id = window.location.hash.slice(1);
 
+	if (data.has(id)) {
+		const songListItem = songListItems.get(id);
+		if (songListItem?.classList.contains("visible")) {
+			songListItem.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			});
+		}
 
+		if (id !== menu.id) {
+			menu.id = id;
 
+			// clean
+			infoMenu.style = '';
 
+			// prepare
+			const song = data.get(id);
+			const background = song.art_full;
+			const links = song.links;
 
+			// set
+			if (background) {
+				infoMenu.style.backgroundImage = `url("${background}")`;
+			}
+		}
 
+		if (dropdown.classList.contains('open')) {
+			dropdown.classList.remove('open');
+			dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
+			dropdown.parentElement.querySelector('.play-button').style.zIndex = '';
+		}
+		menu.classList.add('visible');
+	} else {
+		menu.classList.remove('visible');
+		dataMenu.classList.remove('visible');
+	}
+}
+infoMenuButton.onpointerdown = () => {
+	dataMenu.classList.remove('visible');
+}
 
+// data menu
+dataMenuButton.onpointerdown = () => {
+	if (dataMenu.id !== menu.id) {
+		dataMenu.id = menu.id;
+		dataMenu.innerHTML = '';
+		dataMenu.appendChild(dataMenuElement(data.get(menu.id)));
+	}
+	dataMenu.classList.add('visible');
+};
+function dataMenuElement(d, title = false) {
+	let element = null;
+	if (typeof d === "object") {
+		element = document.createDocumentFragment();
+		if (Array.isArray(d)) {
+			d.forEach(value => element.appendChild(dataMenuElement(value)));
+		} else {
+			for (const [key, value] of Object.entries(d)) {
+				element.appendChild(dataMenuElement(key, true))
+				element.appendChild(dataMenuElement(value))
+			}
+		}
+		const space = document.createElement('hr');
+		space.classList.add('data-space');
+		element.appendChild(space);
+	} else if (title) {
+		element = document.createElement('h3');
+		element.textContent = d.toString();
+		element.classList.add('data-title');
+	} else {
+		if (isValidUrl(d)) {
+			element = document.createElement('a');
+			element.textContent = d;
+			element.target = "_blank";
+			element.href = d;
+		} else {
+			element = document.createElement('p');
+			element.textContent = d.toString();
+		}
+		element.classList.add('data-text');
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
+	return element;
+}
 
 
 // loading
@@ -405,6 +468,8 @@ searchQuery = queryParam;
 sortMode = sortParam;
 loadData( await fetchJsonData( isValidUrl(dataParam) ? dataParam : `https://stellara.nicholasjdi.dev/data/music/data/${dataParam}.json`, []));
 search();
+handleHash();
+
 
 // player controls
 if (!window.player) window.player = {};

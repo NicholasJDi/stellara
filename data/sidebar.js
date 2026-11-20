@@ -1,5 +1,6 @@
 const sidebar = document.querySelector('.sidebar');
-if (sidebar) {
+if (sidebar) setupSidebar();
+function setupSidebar() {
 	const btn = document.querySelector('.sidebar-toggle');
 	const searchParams = new URLSearchParams(window.location.search);
 	const sidebarParam = searchParams.get('sidebar');
