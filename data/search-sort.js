@@ -104,6 +104,7 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 							break;
 
 						case "range":
+							const rangeParity = Boolean(searchItem.enforce_parity ?? false);
 							for (const token of inputTokens) {
 								const parts = token.split("|");
 								if (parts.length === 2) {
@@ -112,7 +113,10 @@ export function sortDataBySearch(data, searchScheme, inputText = "", inputTags =
 										[start, end] = [end, start];
 									}
 									for (const searchToken of value) {
-										if (start <= searchToken && searchToken <= end) {
+										const startToken = searchToken.slice(0, rangeParity ? start.length : undefined);
+										const endToken = searchToken.slice(0, rangeParity ? end.length : undefined);
+										console.log(startToken)
+										if (start <= startToken && endToken <= end) {
 											success = true;
 											totalWeight += tokenWeight;
 											if (tokens.includes(token)){

@@ -35,6 +35,7 @@
 		"position_weight":1
 	},
 	"date":{
-		"type":"range"
+		"type":"range",
+		"enforce_parity":true
 	}
 }
